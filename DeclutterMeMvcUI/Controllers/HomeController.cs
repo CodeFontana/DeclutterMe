@@ -1,8 +1,5 @@
-﻿using DeclutterMeMvcUI.Models;
-using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
+﻿namespace DeclutterMeMvcUI.Controllers;
 
-namespace DeclutterMeMvcUI.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;

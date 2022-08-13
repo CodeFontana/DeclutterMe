@@ -1,0 +1,11 @@
+﻿namespace DataAccessLibrary.Data;
+
+public class DeclutterMeDbContext : DbContext
+{
+	public DeclutterMeDbContext(DbContextOptions<DeclutterMeDbContext> options) : base(options)
+	{
+
+	}
+
+	public DbSet<Category> Categories { get; set; }
+}
