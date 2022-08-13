@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32804.467
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeclutterMeMvcUI", "DeclutterMeMvcUI\DeclutterMeMvcUI.csproj", "{723C78EF-8F8B-4A5D-B6F6-E59CCDEF6F7C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{723C78EF-8F8B-4A5D-B6F6-E59CCDEF6F7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{723C78EF-8F8B-4A5D-B6F6-E59CCDEF6F7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{723C78EF-8F8B-4A5D-B6F6-E59CCDEF6F7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{723C78EF-8F8B-4A5D-B6F6-E59CCDEF6F7C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2692660B-52D8-4E87-9E64-5A4207A34F8C}
+	EndGlobalSection
+EndGlobal
