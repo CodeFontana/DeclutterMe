@@ -1,6 +1,7 @@
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
 builder.Services.AddDbContext<DeclutterMeDbContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("Default"))
 );
