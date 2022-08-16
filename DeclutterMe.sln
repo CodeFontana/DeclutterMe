@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32804.467
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeclutterMeMvcUI", "DeclutterMeMvcUI\DeclutterMeMvcUI.csproj", "{723C78EF-8F8B-4A5D-B6F6-E59CCDEF6F7C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeclutterMeMvcUI", "DeclutterMeMvcUI\DeclutterMeMvcUI.csproj", "{723C78EF-8F8B-4A5D-B6F6-E59CCDEF6F7C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLibrary", "DataAccessLibrary\DataAccessLibrary.csproj", "{63BA1E92-0FCA-40E9-AADD-245B7E850883}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessLibrary", "DataAccessLibrary\DataAccessLibrary.csproj", "{63BA1E92-0FCA-40E9-AADD-245B7E850883}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeclutterMeRazorUI", "DeclutterMeRazorUI\DeclutterMeRazorUI.csproj", "{F11E2F2F-75BA-469A-9EDF-071060F69FAE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{63BA1E92-0FCA-40E9-AADD-245B7E850883}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63BA1E92-0FCA-40E9-AADD-245B7E850883}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63BA1E92-0FCA-40E9-AADD-245B7E850883}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F11E2F2F-75BA-469A-9EDF-071060F69FAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F11E2F2F-75BA-469A-9EDF-071060F69FAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F11E2F2F-75BA-469A-9EDF-071060F69FAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F11E2F2F-75BA-469A-9EDF-071060F69FAE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
