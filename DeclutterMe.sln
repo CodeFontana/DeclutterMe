@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeclutterMeMvcUI", "Declutt
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessLibrary", "DataAccessLibrary\DataAccessLibrary.csproj", "{63BA1E92-0FCA-40E9-AADD-245B7E850883}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeclutterMeRazorUI", "DeclutterMeRazorUI\DeclutterMeRazorUI.csproj", "{F11E2F2F-75BA-469A-9EDF-071060F69FAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeclutterMeRazorUI", "DeclutterMeRazorUI\DeclutterMeRazorUI.csproj", "{F11E2F2F-75BA-469A-9EDF-071060F69FAE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeclutterMeBlazorUI", "DeclutterMeBlazorUI\DeclutterMeBlazorUI.csproj", "{8930EB0F-E0AA-4880-98D5-45C77BBC50BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{F11E2F2F-75BA-469A-9EDF-071060F69FAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F11E2F2F-75BA-469A-9EDF-071060F69FAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F11E2F2F-75BA-469A-9EDF-071060F69FAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8930EB0F-E0AA-4880-98D5-45C77BBC50BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8930EB0F-E0AA-4880-98D5-45C77BBC50BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8930EB0F-E0AA-4880-98D5-45C77BBC50BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8930EB0F-E0AA-4880-98D5-45C77BBC50BD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
