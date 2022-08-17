@@ -1,15 +1,20 @@
-@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
-
-html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+html {
+    position: relative;
+    min-height: 100%;
 }
 
-h1:focus {
-    outline: none;
+body {
+    margin-bottom: 60px;
 }
 
-a, .btn-link {
-    color: #0071c1;
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+
+a {
+    color: #0077cc;
 }
 
 .btn-primary {
@@ -18,20 +23,35 @@ a, .btn-link {
     border-color: #1861ac;
 }
 
-.content {
-    padding-top: 1.1rem;
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
-.valid.modified:not([type=checkbox]) {
-    outline: 1px solid #26b050;
+.border-top {
+    border-top: 1px solid #e5e5e5;
 }
 
-.invalid {
-    outline: 1px solid red;
+.border-bottom {
+    border-bottom: 1px solid #e5e5e5;
 }
 
-.validation-message {
-    color: red;
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+    font-size: 1rem;
+    line-height: inherit;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;
 }
 
 #blazor-error-ui {
