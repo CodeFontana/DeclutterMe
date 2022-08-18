@@ -47,7 +47,7 @@ public class CategoryController : Controller
             return NotFound();
         }
 
-        Category? category = await _db.Categories.FirstOrDefaultAsync(c => c.Id == id);
+        Category category = await _db.Categories.FirstOrDefaultAsync(c => c.Id == id);
 
         if (category == null)
         {
@@ -84,7 +84,7 @@ public class CategoryController : Controller
             return NotFound();
         }
 
-        Category? category = await _db.Categories.FirstOrDefaultAsync(c => c.Id == id);
+        Category category = await _db.Categories.FirstOrDefaultAsync(c => c.Id == id);
 
         if (category == null)
         {
@@ -98,7 +98,7 @@ public class CategoryController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Delete(Category category)
     {
-        Category? c = await _db.Categories.FirstOrDefaultAsync(c => c.Id == category.Id);
+        Category c = await _db.Categories.FirstOrDefaultAsync(c => c.Id == category.Id);
 
         if (c == null)
         {
