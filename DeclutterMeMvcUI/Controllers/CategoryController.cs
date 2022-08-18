@@ -9,9 +9,9 @@ public class CategoryController : Controller
         _db = db;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        IEnumerable<Category> categories = _db.Categories.AsNoTracking();
+        List<Category> categories = await _db.Categories.AsNoTracking().ToListAsync();
         return View(categories);
     }
 
@@ -22,7 +22,7 @@ public class CategoryController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Create(Category category)
+    public async Task<IActionResult> Create(Category category)
     {
         if (category.Name == category.DisplayOrder.ToString())
         {
@@ -31,8 +31,8 @@ public class CategoryController : Controller
 
         if (ModelState.IsValid)
         {
-            _db.Categories.Add(category);
-            _db.SaveChanges();
+            await _db.Categories.AddAsync(category);
+            await _db.SaveChangesAsync();
             TempData["success"] = "Category created successfully";
             return RedirectToAction("Index");
         }
@@ -40,14 +40,14 @@ public class CategoryController : Controller
         return View(category);
     }
 
-    public IActionResult Edit(int? id)
+    public async Task<IActionResult> Edit(int? id)
     {
         if (id == null || id == 0)
         {
             return NotFound();
         }
 
-        Category? category = _db.Categories.FirstOrDefault(c => c.Id == id);
+        Category? category = await _db.Categories.FirstOrDefaultAsync(c => c.Id == id);
 
         if (category == null)
         {
@@ -59,7 +59,7 @@ public class CategoryController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Edit(Category category)
+    public async Task<IActionResult> Edit(Category category)
     {
         if (category.Name == category.DisplayOrder.ToString())
         {
@@ -69,7 +69,7 @@ public class CategoryController : Controller
         if (ModelState.IsValid)
         {
             _db.Categories.Update(category);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
             TempData["success"] = "Category updated successfully";
             return RedirectToAction("Index");
         }
@@ -77,14 +77,14 @@ public class CategoryController : Controller
         return View(category);
     }
 
-    public IActionResult Delete(int? id)
+    public async Task<IActionResult> Delete(int? id)
     {
         if (id == null || id == 0)
         {
             return NotFound();
         }
 
-        Category? category = _db.Categories.FirstOrDefault(c => c.Id == id);
+        Category? category = await _db.Categories.FirstOrDefaultAsync(c => c.Id == id);
 
         if (category == null)
         {
@@ -96,9 +96,9 @@ public class CategoryController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Delete(Category category)
+    public async Task<IActionResult> Delete(Category category)
     {
-        Category? c = _db.Categories.FirstOrDefault(c => c.Id == category.Id);
+        Category? c = await _db.Categories.FirstOrDefaultAsync(c => c.Id == category.Id);
 
         if (c == null)
         {
@@ -106,7 +106,7 @@ public class CategoryController : Controller
         }
 
         _db.Categories.Remove(c);
-        _db.SaveChanges();
+        await _db.SaveChangesAsync();
         TempData["success"] = "Category deleted successfully";
 
         return RedirectToAction("Index");
