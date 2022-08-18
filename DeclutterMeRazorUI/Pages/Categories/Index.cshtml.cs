@@ -11,10 +11,10 @@ public class IndexModel : PageModel
         _db = db;
     }
 
-    public IEnumerable<Category> Categories { get; set; }
+    public List<Category> Categories { get; set; }
 
-    public void OnGet()
+    public async Task OnGet()
     {
-        Categories = _db.Categories.AsNoTracking();
+        Categories = await _db.Categories.AsNoTracking().ToListAsync();
     }
 }
