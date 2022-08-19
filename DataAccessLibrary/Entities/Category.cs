@@ -10,7 +10,7 @@ public class Category
 
     [DisplayName("Display Order")]
     [Range(1, 100, ErrorMessage = "Display order must be between 1 and 100, only.")]
-    public int DisplayOrder { get; set; }
+    public int? DisplayOrder { get; set; }
 
     public DateTime Created { get; set; } = DateTime.Now;
 }
