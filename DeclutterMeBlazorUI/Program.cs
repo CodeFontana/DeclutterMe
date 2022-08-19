@@ -5,6 +5,7 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddDbContext<DeclutterMeDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default"))
 );
+builder.Services.AddBlazoredToast();
 
 var app = builder.Build();
 

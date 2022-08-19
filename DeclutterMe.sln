@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessLibrary", "DataAc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeclutterMeRazorUI", "DeclutterMeRazorUI\DeclutterMeRazorUI.csproj", "{F11E2F2F-75BA-469A-9EDF-071060F69FAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeclutterMeBlazorUI", "DeclutterMeBlazorUI\DeclutterMeBlazorUI.csproj", "{8930EB0F-E0AA-4880-98D5-45C77BBC50BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeclutterMeBlazorUI", "DeclutterMeBlazorUI\DeclutterMeBlazorUI.csproj", "{8930EB0F-E0AA-4880-98D5-45C77BBC50BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

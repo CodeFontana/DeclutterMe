@@ -1,0 +1,132 @@
+﻿@page "/Category"
+
+<PageTitle>Categories - DeclutterMe</PageTitle>
+
+<Notification 
+    ShowError="@_showError" 
+    ShowSuccess="@_showSuccess" 
+    ShowInfo="@_showInfo"
+    Message="@_feedback" />
+
+@if (_createMode)
+{
+    <EditForm Model="_category" OnValidSubmit="HandleCreateCategory">
+        <div class="border p-3 mt-4">
+            <div class="row pb-2">
+                <h2 class="text-primary">Create Category</h2>
+                <hr />
+            </div>
+            <DataAnnotationsValidator />
+            <div class="mb-3">
+                <label>Name:</label>
+                <InputText class="form-control" @bind-Value="_category.Name" />
+                <div class="text-danger">
+                    <ValidationMessage For="@(() => _category.Name)" />
+                </div>
+            </div>
+            <div class="mb-3">
+                <label>Display Order:</label>
+                <InputNumber class="form-control" @bind-Value="_category.DisplayOrder" />
+                <div class="text-danger">
+                    <ValidationMessage class="text-danger" For="@(() => _category.DisplayOrder)" />
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary me-2">Create</button>
+            <button type="button" class="btn btn-secondary" @onclick="() => { CreateMode = false; }">Back to List</button>
+        </div>
+    </EditForm>
+}
+else if (_editMode)
+{
+    <EditForm Model="_category" OnValidSubmit="HandleEditCategory">
+        <div class="border p-3 mt-4">
+            <div class="row pb-2">
+                <h2 class="text-primary">Edit Category</h2>
+                <hr />
+            </div>
+            <DataAnnotationsValidator />
+            <div class="mb-3">
+                <label>Name:</label>
+                <InputText class="form-control" @bind-Value="_category.Name" />
+                <div class="text-danger">
+                    <ValidationMessage For="@(() => _category.Name)" />
+                </div>
+            </div>
+            <div class="mb-3">
+                <label>Display Order:</label>
+                <InputNumber class="form-control" @bind-Value="_category.DisplayOrder" />
+                <div class="text-danger">
+                    <ValidationMessage class="text-danger" For="@(() => _category.DisplayOrder)" />
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary me-2">Update</button>
+            <button type="button" class="btn btn-secondary" @onclick="() => { EditMode = false; }">Back to List</button>
+        </div>
+    </EditForm>
+}
+else if (_deleteMode)
+{
+    <EditForm Model="_category" OnValidSubmit="HandleDeleteCategory">
+        <div class="border p-3 mt-4">
+            <div class="row pb-2">
+                <h2 class="text-primary">Delete Category</h2>
+                <hr />
+            </div>
+            <div class="mb-3">
+                <label>Name:</label>
+                <InputText class="form-control" @bind-Value="_category.Name" disabled />
+            </div>
+            <div class="mb-3">
+                <label>Display Order:</label>
+                <InputNumber class="form-control" @bind-Value="_category.DisplayOrder" disabled />
+            </div>
+            <button type="submit" class="btn btn-danger me-2">Delete</button>
+            <button type="button" class="btn btn-secondary" @onclick="() => { DeleteMode = false; }">Back to List</button>
+        </div>
+    </EditForm>
+}
+else
+{
+    <div class="container p-3">
+
+        <div class="row py-4">
+            <div class="col-6">
+                <h2 class="text-primary">Category List</h2>
+            </div>
+            <div class="col-6 text-end">
+                <button class="btn btn-primary" @onclick="() => { CreateMode = true; }">
+                    <i class="bi bi-plus-circle me-2"></i>Create New Category
+                </button>
+            </div>
+        </div>
+
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Category Name</th>
+                    <th>Display Order</th>
+                    <th>Created</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (_categories is not null)
+                {
+                    @foreach (var item in _categories)
+                    {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>@item.DisplayOrder</td>
+                            <td>@item.Created</td>
+                            <td>
+                                <button class="btn btn-primary" @onclick="() => {_category = item; EditMode = true;}">Edit</button>
+                                <button class="btn btn-danger" @onclick="() => {_category = item; DeleteMode = true;}">Delete</button>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+
+    </div>
+}
