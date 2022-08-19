@@ -33,8 +33,8 @@
                     <td>@item.DisplayOrder</td>
                     <td>@item.Created</td>
                     <td>
-                        <a class="btn btn-primary" asp-controller="Category" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                        <a class="btn btn-danger" asp-controller="Category" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        <a class="btn btn-primary" asp-page="Edit" asp-route-id="@item.Id">Edit</a>
+                        <a class="btn btn-danger" asp-page="Delete" asp-route-id="@item.Id">Delete</a>
                     </td>
                 </tr>
             }
