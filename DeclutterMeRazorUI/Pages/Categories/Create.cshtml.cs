@@ -3,9 +3,9 @@ namespace DeclutterMeRazorUI.Pages.Categories;
 [BindProperties]
 public class CreateModel : PageModel
 {
-    private readonly DeclutterMeDbContext _db;
+    private readonly ICategoryRepository _db;
 
-    public CreateModel(DeclutterMeDbContext db)
+    public CreateModel(ICategoryRepository db)
     {
         _db = db;
     }
@@ -26,7 +26,7 @@ public class CreateModel : PageModel
 
         if (ModelState.IsValid)
         {
-            await _db.Categories.AddAsync(Category);
+            await _db.AddAsync(Category);
             await _db.SaveChangesAsync();
             TempData["success"] = "Category created successfully";
             return RedirectToPage("Index");

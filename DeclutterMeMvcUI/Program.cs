@@ -5,6 +5,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContext<DeclutterMeDbContext>(options => 
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default"))
 );
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
 WebApplication app = builder.Build();
 
@@ -16,13 +17,9 @@ if (app.Environment.IsDevelopment() == false)
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthorization();
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
 app.Run();

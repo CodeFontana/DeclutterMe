@@ -3,18 +3,18 @@ namespace DeclutterMeRazorUI.Pages.Categories;
 [BindProperties]
 public class EditModel : PageModel
 {
-    private readonly DeclutterMeDbContext _db;
+    private readonly ICategoryRepository _db;
 
-    public EditModel(DeclutterMeDbContext db)
+    public EditModel(ICategoryRepository db)
     {
         _db = db;
     }
 
     public Category Category { get; set; }
 
-    public void OnGet(int id)
+    public async Task OnGet(int id)
     {
-        Category = _db.Categories.FirstOrDefault(c => c.Id == id);
+        Category = await _db.GetAsync(c => c.Id == id);
     }
 
     public async Task<IActionResult> OnPost()
@@ -26,7 +26,7 @@ public class EditModel : PageModel
 
         if (ModelState.IsValid)
         {
-            _db.Categories.Update(Category);
+            _db.Update(Category);
             await _db.SaveChangesAsync();
             TempData["success"] = "Category updated successfully";
             return RedirectToPage("Index");

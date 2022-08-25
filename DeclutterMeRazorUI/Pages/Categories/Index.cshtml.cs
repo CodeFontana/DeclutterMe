@@ -1,20 +1,18 @@
-using DataAccessLibrary.Entities;
-
 namespace DeclutterMeRazorUI.Pages.Categories;
 
 public class IndexModel : PageModel
 {
-    private readonly DeclutterMeDbContext _db;
+    private readonly ICategoryRepository _db;
 
-    public IndexModel(DeclutterMeDbContext db)
+    public IndexModel(ICategoryRepository db)
     {
         _db = db;
     }
 
-    public List<Category> Categories { get; set; }
+    public IEnumerable<Category> Categories { get; set; }
 
     public async Task OnGet()
     {
-        Categories = await _db.Categories.AsNoTracking().ToListAsync();
+        Categories = await _db.GetAsync();
     }
 }

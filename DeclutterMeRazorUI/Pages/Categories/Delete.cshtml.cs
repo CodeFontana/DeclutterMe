@@ -3,23 +3,23 @@ namespace DeclutterMeRazorUI.Pages.Categories;
 [BindProperties]
 public class DeleteModel : PageModel
 {
-    private readonly DeclutterMeDbContext _db;
+    private readonly ICategoryRepository _db;
 
-    public DeleteModel(DeclutterMeDbContext db)
+    public DeleteModel(ICategoryRepository db)
     {
         _db = db;
     }
 
     public Category Category { get; set; }
 
-    public void OnGet(int id)
+    public async Task OnGet(int id)
     {
-        Category = _db.Categories.FirstOrDefault(c => c.Id == id);
+        Category = await _db.GetAsync(c => c.Id == id);
     }
 
     public async Task<IActionResult> OnPost()
     {
-        _db.Categories.Remove(Category);
+        _db.Remove(Category);
         await _db.SaveChangesAsync();
         TempData["success"] = "Category deleted successfully";
         return RedirectToPage("Index");

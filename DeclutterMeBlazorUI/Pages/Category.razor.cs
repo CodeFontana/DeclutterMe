@@ -2,9 +2,9 @@
 
 public partial class Category
 {
-    [Inject] DeclutterMeDbContext db { get; set; }
+    [Inject] ICategoryRepository db { get; set; }
 
-    private List<DataAccessLibrary.Entities.Category> _categories;
+    private IEnumerable<DataAccessLibrary.Entities.Category> _categories;
     private DataAccessLibrary.Entities.Category _category = new();
     private bool _showError = false;
     private bool _showSuccess = false;
@@ -70,7 +70,7 @@ public partial class Category
 
     private async Task LoadCategories()
     {
-        _categories = await db.Categories.ToListAsync();
+        _categories = await db.GetAsync();
     }
 
     private async Task HandleCreateCategory()
@@ -82,7 +82,7 @@ public partial class Category
             return;
         }
 
-        await db.Categories.AddAsync(_category);
+        await db.AddAsync(_category);
         await db.SaveChangesAsync();
         _category = new();
         _feedback = "Category created successfully";
@@ -100,7 +100,7 @@ public partial class Category
             return;
         }
 
-        db.Categories.Update(_category);
+        db.Update(_category);
         await db.SaveChangesAsync();
         _category = new();
         _feedback = "Category updated successfully";
@@ -111,7 +111,7 @@ public partial class Category
 
     private async Task HandleDeleteCategory()
     {
-        db.Categories.Remove(_category);
+        db.Remove(_category);
         await db.SaveChangesAsync();
         _category = new();
         _feedback = "Category deleted successfully";

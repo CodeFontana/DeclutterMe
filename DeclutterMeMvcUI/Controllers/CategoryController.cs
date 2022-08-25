@@ -2,16 +2,16 @@
 
 public class CategoryController : Controller
 {
-    private readonly DeclutterMeDbContext _db;
+    private readonly ICategoryRepository _db;
 
-    public CategoryController(DeclutterMeDbContext db)
+    public CategoryController(ICategoryRepository db)
     {
         _db = db;
     }
 
     public async Task<IActionResult> Index()
     {
-        List<Category> categories = await _db.Categories.AsNoTracking().ToListAsync();
+        IEnumerable<Category> categories = await _db.GetAsync();
         return View(categories);
     }
 
@@ -31,7 +31,7 @@ public class CategoryController : Controller
 
         if (ModelState.IsValid)
         {
-            await _db.Categories.AddAsync(category);
+            await _db.AddAsync(category);
             await _db.SaveChangesAsync();
             TempData["success"] = "Category created successfully";
             return RedirectToAction("Index");
@@ -47,7 +47,7 @@ public class CategoryController : Controller
             return NotFound();
         }
 
-        Category category = await _db.Categories.FirstOrDefaultAsync(c => c.Id == id);
+        Category category = await _db.GetAsync(c => c.Id == id);
 
         if (category == null)
         {
@@ -68,7 +68,7 @@ public class CategoryController : Controller
 
         if (ModelState.IsValid)
         {
-            _db.Categories.Update(category);
+            _db.Update(category);
             await _db.SaveChangesAsync();
             TempData["success"] = "Category updated successfully";
             return RedirectToAction("Index");
@@ -84,7 +84,7 @@ public class CategoryController : Controller
             return NotFound();
         }
 
-        Category category = await _db.Categories.FirstOrDefaultAsync(c => c.Id == id);
+        Category category = await _db.GetAsync(c => c.Id == id);
 
         if (category == null)
         {
@@ -98,14 +98,14 @@ public class CategoryController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Delete(Category category)
     {
-        Category c = await _db.Categories.FirstOrDefaultAsync(c => c.Id == category.Id);
+        Category c = await _db.GetAsync(c => c.Id == category.Id);
 
         if (c == null)
         {
             return NotFound();
         }
 
-        _db.Categories.Remove(c);
+        _db.Remove(c);
         await _db.SaveChangesAsync();
         TempData["success"] = "Category deleted successfully";
 
