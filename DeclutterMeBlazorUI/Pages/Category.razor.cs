@@ -6,10 +6,10 @@ public partial class Category
 
     private List<DataAccessLibrary.Entities.Category> _categories;
     private DataAccessLibrary.Entities.Category _category = new();
-    private bool _showError { get; set; } = false;
-    private bool _showSuccess { get; set; } = false;
-    private bool _showInfo { get; set; } = false;
-    private string _feedback { get; set; } = "";
+    private bool _showError = false;
+    private bool _showSuccess = false;
+    private bool _showInfo = false;
+    private string _feedback = "";
     
     private bool _createMode = false;
     public bool CreateMode
