@@ -4,6 +4,7 @@
 @if (TempData["success"] != null)
 {
     <script type="text/javascript">
+        toastr.options.positionClass = 'toast-bottom-right';
         toastr.success('@TempData["success"]')
     </script>
 
@@ -14,6 +15,7 @@
 else if (TempData["error"] != null)
 {
     <script type="text/javascript">
+        toastr.options.positionClass = 'toast-bottom-right';
         toastr.success('@TempData["error"]')
     </script>
 
@@ -24,6 +26,7 @@ else if (TempData["error"] != null)
 else if (TempData["info"] != null)
 {
     <script type="text/javascript">
+        toastr.options.positionClass = 'toast-bottom-right';
         toastr.success('@TempData["info"]')
     </script>
 
@@ -34,6 +37,7 @@ else if (TempData["info"] != null)
 else if (TempData["warning"] != null)
 {
     <script type="text/javascript">
+        toastr.options.positionClass = 'toast-bottom-right';
         toastr.success('@TempData["warning"]')
     </script>
 
