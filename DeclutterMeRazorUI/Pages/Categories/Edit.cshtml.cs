@@ -3,9 +3,9 @@ namespace DeclutterMeRazorUI.Pages.Categories;
 [BindProperties]
 public class EditModel : PageModel
 {
-    private readonly ICategoryRepository _db;
+    private readonly IUnitOfWork _db;
 
-    public EditModel(ICategoryRepository db)
+    public EditModel(IUnitOfWork db)
     {
         _db = db;
     }
@@ -14,7 +14,7 @@ public class EditModel : PageModel
 
     public async Task OnGet(int id)
     {
-        Category = await _db.GetAsync(c => c.Id == id);
+        Category = await _db.Category.GetAsync(c => c.Id == id);
     }
 
     public async Task<IActionResult> OnPost()
@@ -26,7 +26,7 @@ public class EditModel : PageModel
 
         if (ModelState.IsValid)
         {
-            _db.Update(Category);
+            _db.Category.Update(Category);
             await _db.SaveChangesAsync();
             TempData["success"] = "Category updated successfully";
             return RedirectToPage("Index");

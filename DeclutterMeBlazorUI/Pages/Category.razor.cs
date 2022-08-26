@@ -2,7 +2,7 @@
 
 public partial class Category
 {
-    [Inject] ICategoryRepository db { get; set; }
+    [Inject] IUnitOfWork db { get; set; }
 
     private IEnumerable<DataAccessLibrary.Entities.Category> _categories;
     private DataAccessLibrary.Entities.Category _category = new();
@@ -70,7 +70,7 @@ public partial class Category
 
     private async Task LoadCategories()
     {
-        _categories = await db.GetAsync();
+        _categories = await db.Category.GetAsync();
     }
 
     private async Task HandleCreateCategory()
@@ -82,7 +82,7 @@ public partial class Category
             return;
         }
 
-        await db.AddAsync(_category);
+        await db.Category.AddAsync(_category);
         await db.SaveChangesAsync();
         _category = new();
         _feedback = "Category created successfully";
@@ -100,7 +100,7 @@ public partial class Category
             return;
         }
 
-        db.Update(_category);
+        db.Category.Update(_category);
         await db.SaveChangesAsync();
         _category = new();
         _feedback = "Category updated successfully";
@@ -111,7 +111,7 @@ public partial class Category
 
     private async Task HandleDeleteCategory()
     {
-        db.Remove(_category);
+        db.Category.Remove(_category);
         await db.SaveChangesAsync();
         _category = new();
         _feedback = "Category deleted successfully";

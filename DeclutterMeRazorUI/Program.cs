@@ -4,7 +4,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContext<DeclutterMeDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default"))
 );
-builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 WebApplication app = builder.Build();
 

@@ -2,9 +2,9 @@ namespace DeclutterMeRazorUI.Pages.Categories;
 
 public class IndexModel : PageModel
 {
-    private readonly ICategoryRepository _db;
+    private readonly IUnitOfWork _db;
 
-    public IndexModel(ICategoryRepository db)
+    public IndexModel(IUnitOfWork db)
     {
         _db = db;
     }
@@ -13,6 +13,6 @@ public class IndexModel : PageModel
 
     public async Task OnGet()
     {
-        Categories = await _db.GetAsync();
+        Categories = await _db.Category.GetAsync();
     }
 }

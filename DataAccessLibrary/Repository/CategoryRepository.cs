@@ -15,9 +15,4 @@ public class CategoryRepository : Repository<Category>, ICategoryRepository
     {
         _db.Categories.Update(category);
     }
-
-    public async Task SaveChangesAsync()
-    {
-        await _db.SaveChangesAsync();
-    }
 }

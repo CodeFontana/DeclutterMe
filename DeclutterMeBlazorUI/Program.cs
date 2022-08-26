@@ -5,7 +5,7 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddDbContext<DeclutterMeDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default"))
 );
-builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddBlazoredToast();
 
 WebApplication app = builder.Build();
