@@ -1,5 +1,6 @@
-﻿namespace DeclutterMeMvcUI.Controllers;
+﻿namespace DeclutterMeMvcUI.Areas.Admin.Controllers;
 
+[Area("Admin")]
 public class CategoryController : Controller
 {
     private readonly IUnitOfWork _db;
