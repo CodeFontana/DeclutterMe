@@ -12,6 +12,7 @@ public class UnitOfWork : IUnitOfWork
     }
 
     public ICategoryRepository Category => new CategoryRepository(_db);
+    public IProductRepository Product => new ProductRepository(_db);
 
     public async Task<bool> SaveChangesAsync()
     {
