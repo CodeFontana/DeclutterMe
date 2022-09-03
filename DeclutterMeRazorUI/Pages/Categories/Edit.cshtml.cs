@@ -26,7 +26,7 @@ public class EditModel : PageModel
 
         if (ModelState.IsValid)
         {
-            _db.Category.Update(Category);
+            await _db.Category.UpdateAsync(Category);
             await _db.SaveChangesAsync();
             TempData["success"] = "Category updated successfully";
             return RedirectToPage("Index");

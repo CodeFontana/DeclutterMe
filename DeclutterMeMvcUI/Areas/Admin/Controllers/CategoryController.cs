@@ -69,7 +69,7 @@ public class CategoryController : Controller
 
         if (ModelState.IsValid)
         {
-            _db.Category.Update(category);
+            await _db.Category.UpdateAsync(category);
             await _db.SaveChangesAsync();
             TempData["success"] = "Category updated successfully";
             return RedirectToAction("Index");
