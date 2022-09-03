@@ -15,15 +15,19 @@ public class Product
 
     [Required]
     [Range(1, 10000, ErrorMessage = "List price maximum is $10000.")]
+    [DisplayName("List price")]
     public double ListPrice { get; set; }
 
     [Required]
     [Range(1, 10000, ErrorMessage = "Actual price maximum is $10000.")]
+    [DisplayName("Actual price")]
     public double ActualPrice { get; set; }
 
-    [MaxLength(1000, ErrorMessage = "ImageURL must be less than 1000 characters.")]
+    [MaxLength(200, ErrorMessage = "ImageURL must be less than 200 characters.")]
+    [DisplayName("Image URL")]
     public string ImageUrl { get; set; }
 
+    [DisplayName("Category")]
     public int CategoryId{ get; set; }
 
     [ForeignKey("CategoryId")]

@@ -1,6 +1,4 @@
-﻿using DataAccessLibrary.Data;
-
-namespace DataAccessLibrary.Repository;
+﻿namespace DataAccessLibrary.Repository;
 
 public class ProductRepository : Repository<Product>, IProductRepository
 {
@@ -9,6 +7,15 @@ public class ProductRepository : Repository<Product>, IProductRepository
     public ProductRepository(DeclutterMeDbContext declutterMeDb) : base(declutterMeDb)
     {
         _db = declutterMeDb;
+    }
+
+    public async Task<IEnumerable<Product>> GetWithCategoriesAsync()
+    {
+        return await _db.Products
+            .Include(p => p.Category)
+            .AsSplitQuery()
+            .AsNoTracking()
+            .ToListAsync();
     }
 
     public async Task UpdateAsync(Product product)
