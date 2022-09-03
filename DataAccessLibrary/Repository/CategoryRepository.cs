@@ -11,8 +11,14 @@ public class CategoryRepository : Repository<Category>, ICategoryRepository
         _db = declutterMeDb;
     }
 
-    public void Update(Category category)
+    public async Task UpdateAsync(Category category)
     {
-        _db.Categories.Update(category);
+        Category dbCategory = await _db.Categories.FirstOrDefaultAsync(c => c.Id == category.Id);
+
+        if (dbCategory != null)
+        {
+            dbCategory.Name = category.Name;
+            dbCategory.DisplayOrder = category.DisplayOrder;
+        }
     }
 }
