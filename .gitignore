@@ -363,4 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # Uploaded images
-wwwroot/img/products/*
+DeclutterMeMvcUI/wwwroot/img/products/*
