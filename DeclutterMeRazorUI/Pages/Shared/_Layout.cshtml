@@ -24,8 +24,18 @@
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-page="/Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-page="/Categories/Index">Category</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Admin
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-dark">
+                                <li class="dropdown-item">
+                                    <a class="nav-link text-light" asp-area="Admin" asp-page="/Categories/Index">Category</a>
+                                </li>
+                                <li class="dropdown-item">
+                                    <a class="nav-link text-light" asp-area="Admin" asp-page="/Products/Index">Product</a>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                 </div>

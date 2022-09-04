@@ -1,4 +1,4 @@
-namespace DeclutterMeRazorUI.Pages.Categories;
+namespace DeclutterMeRazorUI.Areas.Admin.Pages.Categories;
 
 [BindProperties]
 public class CreateModel : PageModel
