@@ -1,4 +1,4 @@
-namespace DeclutterMeRazorUI.Areas.Admin.Pages.Categories;
+namespace DeclutterMeRazorUI.Areas.Admin.Pages.Category;
 
 [BindProperties]
 public class DeleteModel : PageModel
@@ -10,7 +10,7 @@ public class DeleteModel : PageModel
         _db = db;
     }
 
-    public Category Category { get; set; }
+    public DataAccessLibrary.Entities.Category Category { get; set; }
 
     public async Task OnGet(int id)
     {

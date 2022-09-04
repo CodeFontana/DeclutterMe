@@ -1,4 +1,4 @@
-namespace DeclutterMeRazorUI.Areas.Admin.Pages.Categories;
+namespace DeclutterMeRazorUI.Areas.Admin.Pages.Category;
 
 public class IndexModel : PageModel
 {
@@ -9,7 +9,7 @@ public class IndexModel : PageModel
         _db = db;
     }
 
-    public IEnumerable<Category> Categories { get; set; }
+    public IEnumerable<DataAccessLibrary.Entities.Category> Categories { get; set; }
 
     public async Task OnGet()
     {
