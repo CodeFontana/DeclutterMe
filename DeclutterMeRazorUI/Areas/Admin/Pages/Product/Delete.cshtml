@@ -1,0 +1,55 @@
+﻿@page
+@model DeclutterMeRazorUI.Areas.Admin.Pages.Product.DeleteModel
+@{
+    ViewData["Title"] = "Delete Product";
+}
+
+<form method="post">
+    <input asp-for="Product.Id" hidden />
+    <input asp-for="Product.ImageUrl" hidden />
+
+    <div class="row">
+        <div class="col-10">
+            <div class="border p-3 mt-4 row">
+                <div class="col-12 pb-2">
+                    <h2 class="text-primary">Delete Product</h2>
+                    <hr />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Product.Name"></label>
+                    <input asp-for="Product.Name" class="form-control" disabled />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Product.Description"></label>
+                    <textarea asp-for="Product.Description" class="form-control" rows="3" disabled></textarea>
+                </div>
+                <div class="mb-3 col-6">
+                    <label asp-for="Product.ListPrice"></label>
+                    <input asp-for="Product.ListPrice" class="form-control" disabled/>
+                </div>
+                <div class="mb-3 col-6">
+                    <label asp-for="Product.ActualPrice"></label>
+                    <input asp-for="Product.ActualPrice" class="form-control" disabled/>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Product.CategoryId"></label>
+                    <input asp-for="Product.Category.Name" class="form-control" disabled/>
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-danger me-2">Delete</button>
+                    <a asp-page="Index" class="btn btn-secondary">Back to List</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-2 mt-4">
+            <img src="@Model.Product.ImageUrl" style="width: 100%; border-radius: 5px; border: 1px solid #bbb9b9;" />
+        </div>
+    </div>
+
+</form>
+
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

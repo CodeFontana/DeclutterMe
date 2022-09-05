@@ -9,6 +9,15 @@ public class ProductRepository : Repository<Product>, IProductRepository
         _db = declutterMeDb;
     }
 
+    public async Task<Product> GetWithCategoryAsync(int id)
+    {
+        return await _db.Products
+            .Include(p => p.Category)
+            .AsSplitQuery()
+            .AsNoTracking()
+            .FirstOrDefaultAsync(p => p.Id == id);
+    }
+
     public async Task<IEnumerable<Product>> GetWithCategoriesAsync()
     {
         return await _db.Products

@@ -17,6 +17,11 @@ if (app.Environment.IsDevelopment() == false)
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapRazorPages();
+    endpoints.MapControllers();
+});
 app.UseAuthorization();
 app.MapRazorPages();
 app.Run();
