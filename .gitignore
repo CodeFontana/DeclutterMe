@@ -364,3 +364,5 @@ FodyWeavers.xsd
 
 # Uploaded images
 DeclutterMeMvcUI/wwwroot/img/products/*
+DeclutterMeRazorUI/wwwroot/img/products/*
+DeclutterMeBlazorUI/wwwroot/img/products/*
