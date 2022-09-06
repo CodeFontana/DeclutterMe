@@ -1,0 +1,195 @@
+﻿@page "/Admin/Product"
+
+<PageTitle>Products - DeclutterMe</PageTitle>
+
+<Notification ShowError="@_showError"
+              ShowSuccess="@_showSuccess"
+              ShowInfo="@_showInfo"
+              Message="@_feedback" />
+
+@if (_createMode)
+{
+    <EditForm Model="_product" OnValidSubmit="HandleCreateProduct">
+        <div class="row">
+            <div class="col-12">
+                <div class="border p-3 mt-4 row">
+                    <div class="col-12 pb-2">
+                        <h2 class="text-primary">Create Product</h2>
+                        <hr />
+                    </div>
+                    <DataAnnotationsValidator />
+                    <div class="mb-3">
+                        <label>Name:</label>
+                        <InputText class="form-control" @bind-Value="_product.Name" />
+                        <div class="text-danger">
+                            <ValidationMessage For="@(() => _product.Name)" />
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label>Description:</label>
+                        <InputTextArea class="form-control" @bind-Value="_product.Description" rows="3" />
+                        <div class="text-danger">
+                            <ValidationMessage For="@(() => _product.Description)" />
+                        </div>
+                    </div>
+                    <div class="mb-3 col-6">
+                        <label>List Price:</label>
+                        <InputNumber class="form-control" @bind-Value="_product.ListPrice" />
+                        <div class="text-danger">
+                            <ValidationMessage For="@(() => _product.ListPrice)" />
+                        </div>
+                    </div>
+
+                    <div class="mb-3 col-6">
+                        <label>Actual Price:</label>
+                        <InputNumber class="form-control" @bind-Value="_product.ActualPrice" />
+                        <div class="text-danger">
+                            <ValidationMessage For="@(() => _product.ActualPrice)" />
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Image Url:</label>
+                        <InputFile class="form-control" OnChange="HandleInputFileChange" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Category:</label>
+                        <InputSelect class="form-control" @bind-Value="_product.CategoryId">
+                            <option value="">Select Category...</option>
+                            @foreach(var c in _categories)
+                            {
+                                <option value=@($"{c.Id}")>@c.Name</option>
+                            }
+                        </InputSelect>
+                        <div class="text-danger">
+                            <ValidationMessage For="@(() => _product.CategoryId)" />
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary me-2">Create</button>
+                        <button type="button" class="btn btn-secondary" @onclick="() => { CreateMode = false; }">Back to List</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </EditForm>
+}
+else if (_editMode)
+{
+    <EditForm Model="_product" OnValidSubmit="HandleEditProduct">
+        <div class="row">
+            <div class="col-10">
+                <div class="border p-3 mt-4 row">
+                    <div class="col-12 pb-2">
+                        <h2 class="text-primary">Edit Product</h2>
+                        <hr />
+                    </div>
+                    <DataAnnotationsValidator />
+                    <div class="mb-3">
+                        <label>Name:</label>
+                        <InputText class="form-control" @bind-Value="_product.Name" />
+                        <div class="text-danger">
+                            <ValidationMessage For="@(() => _product.Name)" />
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label>Description:</label>
+                        <InputTextArea class="form-control" @bind-Value="_product.Description" rows="3" />
+                        <div class="text-danger">
+                            <ValidationMessage For="@(() => _product.Description)" />
+                        </div>
+                    </div>
+                    <div class="mb-3 col-6">
+                        <label>List Price:</label>
+                        <InputNumber class="form-control" @bind-Value="_product.ListPrice" />
+                        <div class="text-danger">
+                            <ValidationMessage For="@(() => _product.ListPrice)" />
+                        </div>
+                    </div>
+
+                    <div class="mb-3 col-6">
+                        <label>Actual Price:</label>
+                        <InputNumber class="form-control" @bind-Value="_product.ActualPrice" />
+                        <div class="text-danger">
+                            <ValidationMessage For="@(() => _product.ActualPrice)" />
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Image Url:</label>
+                        <InputFile class="form-control" OnChange="HandleInputFileChange" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Category:</label>
+                        <InputSelect class="form-control" @bind-Value="_product.CategoryId">
+                            <option value="">Select Category...</option>
+                            @foreach (var c in _categories)
+                            {
+                                <option value=@($"{c.Id}")>@c.Name</option>
+                            }
+                        </InputSelect>
+                        <div class="text-danger">
+                            <ValidationMessage For="@(() => _product.CategoryId)" />
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary me-2">Update</button>
+                        <button type="button" class="btn btn-secondary" @onclick="() => { EditMode = false; }">Back to List</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2 mt-4">
+                <img src="@_product.ImageUrl" style="width: 100%; border-radius: 5px; border: 1px solid #bbb9b9;" />
+            </div>
+        </div>
+    </EditForm>
+}
+else
+{
+    <div class="container p-3">
+
+        <div class="row py-4">
+            <div class="col-6">
+                <h2 class="text-primary">Product List</h2>
+            </div>
+            <div class="col-6 text-end">
+                <button class="btn btn-primary" @onclick="() => { CreateMode = true; }">
+                    <i class="bi bi-plus-circle me-2"></i>Create New Product
+                </button>
+            </div>
+        </div>
+
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>List Price</th>
+                    <th>Actual Price</th>
+                    <th>Category</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (_products is not null)
+                {
+                    @foreach (var item in _products)
+                    {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>@item.ListPrice</td>
+                            <td>@item.ActualPrice</td>
+                            <td>@item.Category.Name</td>
+                            <td>
+                                <button class="btn btn-primary" @onclick="() => {_product = item; EditMode = true;}">Edit</button>
+                                <button class="btn btn-danger" @onclick="async () => {_product = item; await HandleDeleteProduct();}">Delete</button>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+
+    </div>
+}
