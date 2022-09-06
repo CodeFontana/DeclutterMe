@@ -1,6 +1,4 @@
-﻿using DataAccessLibrary.Data;
-
-namespace DataAccessLibrary.Repository;
+﻿namespace DataAccessLibrary.Repository;
 
 public class Repository<T> : IRepository<T> where T : class
 {
