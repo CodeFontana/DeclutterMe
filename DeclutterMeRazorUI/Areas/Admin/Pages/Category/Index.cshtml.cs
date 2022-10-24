@@ -1,10 +1,14 @@
+using DataAccessLibrary.Data;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+
 namespace DeclutterMeRazorUI.Areas.Admin.Pages.Category;
 
 public class IndexModel : PageModel
 {
-    private readonly IUnitOfWork _db;
+    private readonly DeclutterMeDbContext _db;
 
-    public IndexModel(IUnitOfWork db)
+    public IndexModel(DeclutterMeDbContext db)
     {
         _db = db;
     }
@@ -13,6 +17,6 @@ public class IndexModel : PageModel
 
     public async Task OnGet()
     {
-        Categories = await _db.Category.GetAsync();
+        Categories = await _db.Categories.ToListAsync();
     }
 }

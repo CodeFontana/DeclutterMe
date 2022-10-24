@@ -1,4 +1,8 @@
-﻿namespace DeclutterMeMvcUI.Areas.Customer.Controllers;
+﻿using DeclutterMeMvcUI.Models;
+using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
+
+namespace DeclutterMeMvcUI.Areas.Customer.Controllers;
 
 [Area("Customer")]
 public class HomeController : Controller

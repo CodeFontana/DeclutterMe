@@ -1,11 +1,16 @@
+using DataAccessLibrary.Data;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+
 namespace DeclutterMeRazorUI.Areas.Admin.Pages.Category;
 
 [BindProperties]
 public class DeleteModel : PageModel
 {
-    private readonly IUnitOfWork _db;
+    private readonly DeclutterMeDbContext _db;
 
-    public DeleteModel(IUnitOfWork db)
+    public DeleteModel(DeclutterMeDbContext db)
     {
         _db = db;
     }
@@ -14,12 +19,12 @@ public class DeleteModel : PageModel
 
     public async Task OnGet(int id)
     {
-        Category = await _db.Category.GetAsync(c => c.Id == id);
+        Category = await _db.Categories.FirstOrDefaultAsync(c => c.Id == id);
     }
 
     public async Task<IActionResult> OnPost()
     {
-        _db.Category.Remove(Category);
+        _db.Categories.Remove(Category);
         await _db.SaveChangesAsync();
         TempData["success"] = "Category deleted successfully";
         return RedirectToPage("Index");

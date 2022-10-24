@@ -1,40 +1,42 @@
 ﻿@if (ShowSuccess)
 {
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        @Message
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-}
-else if (ShowError)
-{
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        @Message
+    <div class="alert alert-success alert-dismissible fade show @Class" role="alert" style="@Style">
+        @_message
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 }
 else if (ShowInfo)
 {
-    <div class="alert alert-info alert-dismissible fade show" role="alert">
-        @Message
+    <div class="alert alert-info alert-dismissible fade show @Class" role="alert" style="@Style">
+        @_message
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 }
 else if (ShowWarning)
 {
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        @Message
+    <div class="alert alert-warning alert-dismissible fade show @Class" role="alert" style="@Style">
+        @_message
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+else if (ShowError)
+{
+    <div class="alert alert-danger alert-dismissible fade show @Class" role="alert" style="@Style">
+        @_message
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 }
 
 @code {
     [Inject] IToastService ToastService { get; set; }
+    [Parameter] public string Class { get; set; } = "";
+    [Parameter] public string Style { get; set; } = "";
 
     private bool _showSuccess = false;
-    [Parameter] public bool ShowSuccess 
-    { 
+    public bool ShowSuccess
+    {
         get => _showSuccess;
-        set 
+        set
         {
             if (value)
             {
@@ -47,26 +49,7 @@ else if (ShowWarning)
         }
     }
 
-    private bool _showError = false;
-    [Parameter]
-    public bool ShowError
-    {
-        get => _showError;
-        set
-        {
-            if (value)
-            {
-                _showSuccess = false;
-                _showInfo = false;
-                _showWarning = false;
-            }
-
-            _showError = value;
-        }
-    }
-
     private bool _showInfo = false;
-    [Parameter]
     public bool ShowInfo
     {
         get => _showInfo;
@@ -84,7 +67,6 @@ else if (ShowWarning)
     }
 
     private bool _showWarning = false;
-    [Parameter]
     public bool ShowWarning
     {
         get => _showWarning;
@@ -101,26 +83,80 @@ else if (ShowWarning)
         }
     }
 
-    [Parameter] 
-    public string Message { get; set; }
-
-    protected override void OnParametersSet()
+    private bool _showError = false;
+    public bool ShowError
     {
-        if (_showSuccess)
+        get => _showError;
+        set
         {
-            ToastService.ShowSuccess(Message);
+            if (value)
+            {
+                _showSuccess = false;
+                _showInfo = false;
+                _showWarning = false;
+            }
+
+            _showError = value;
         }
-        else if (_showError)
-        {
-            ToastService.ShowError(Message);
-        }
-        else if (_showInfo)
-        {
-            ToastService.ShowInfo(Message);
-        }
-        else if (_showWarning)
-        {
-            ToastService.ShowWarning(Message);
-        }
+    }
+
+    private string _message { get; set; }
+
+    public void AlertSuccess(string message)
+    {
+        _message = message;
+        ShowSuccess = true;
+        StateHasChanged();
+    }
+
+    public void AlertInfo(string message)
+    {
+        _message = message;
+        ShowInfo = true;
+        StateHasChanged();
+    }
+
+    public void AlertWarning(string message)
+    {
+        _message = message;
+        ShowWarning = true;
+        StateHasChanged();
+    }
+
+    public void AlertError(string message)
+    {
+        _message = message;
+        ShowError = true;
+        StateHasChanged();
+    }
+
+    public void ResetAlert()
+    {
+        _message = "";
+        ShowSuccess = false;
+        ShowInfo = false;
+        ShowWarning = false;
+        ShowError = false;
+        StateHasChanged();
+    }
+
+    public void FireSuccess(string message)
+    {
+        ToastService.ShowSuccess(_message);
+    }
+
+    public void FireInfo(string message)
+    {
+        ToastService.ShowInfo(_message);
+    }
+
+    public void FireWarning(string message)
+    {
+        ToastService.ShowWarning(_message);
+    }
+
+    public void FireError(string message)
+    {
+        ToastService.ShowError(_message);
     }
 }

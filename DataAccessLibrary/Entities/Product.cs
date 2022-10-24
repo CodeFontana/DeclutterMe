@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DataAccessLibrary.Entities;
 
@@ -14,22 +16,22 @@ public class Product
     public string Description { get; set; }
 
     [Required]
-    [Range(1, 10000, ErrorMessage = "List price maximum is $10000.")]
+    [Range(1, 99999, ErrorMessage = "List price maximum is $10000.")]
+    [Column(TypeName = "decimal(7,2)")]
     [DisplayName("List price")]
-    public double ListPrice { get; set; }
+    public decimal ListPrice { get; set; }
 
     [Required]
-    [Range(1, 10000, ErrorMessage = "Actual price maximum is $10000.")]
+    [Range(1, 99999, ErrorMessage = "Actual price maximum is $10000.")]
+    [Column(TypeName = "decimal(7,2)")]
     [DisplayName("Actual price")]
-    public double ActualPrice { get; set; }
+    public decimal ActualPrice { get; set; }
 
     [MaxLength(200, ErrorMessage = "ImageURL must be less than 200 characters.")]
     [DisplayName("Image URL")]
     public string ImageUrl { get; set; }
 
-    [DisplayName("Category")]
-    public int CategoryId{ get; set; }
-
-    [ForeignKey("CategoryId")]
     public Category Category { get; set; }
+
+    public int CategoryId { get; set; }
 }

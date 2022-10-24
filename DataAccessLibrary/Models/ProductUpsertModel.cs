@@ -1,4 +1,7 @@
-﻿namespace DataAccessLibrary.Models;
+﻿using DataAccessLibrary.Entities;
+using Microsoft.AspNetCore.Mvc.Rendering;
+
+namespace DataAccessLibrary.Models;
 
 public class ProductUpsertModel
 {

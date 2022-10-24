@@ -1,12 +1,19 @@
-﻿namespace DeclutterMeMvcUI.Areas.Admin.Controllers;
+﻿using DataAccessLibrary.Data;
+using DataAccessLibrary.Entities;
+using DataAccessLibrary.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+
+namespace DeclutterMeMvcUI.Areas.Admin.Controllers;
 
 [Area("Admin")]
 public class ProductController : Controller
 {
-    private readonly IUnitOfWork _db;
+    private readonly DeclutterMeDbContext _db;
     private readonly IWebHostEnvironment _hostEnvironment;
 
-    public ProductController(IUnitOfWork db, IWebHostEnvironment hostEnvironment)
+    public ProductController(DeclutterMeDbContext db, IWebHostEnvironment hostEnvironment)
     {
         _db = db;
         _hostEnvironment = hostEnvironment;
@@ -20,7 +27,9 @@ public class ProductController : Controller
     [HttpGet]
     public async Task<IActionResult> Get()
     {
-        IEnumerable<Product> products = await _db.Product.GetWithCategoriesAsync();
+        IEnumerable<Product> products = await _db.Products
+            .Include(p => p.Category)
+            .ToListAsync();
         return Json(new { data = products });
     }
 
@@ -29,7 +38,8 @@ public class ProductController : Controller
         ProductUpsertModel productUpsertModel = new()
         {
             Product = new(),
-            CategoryList = (await _db.Category.GetAsync()).Select(c => new SelectListItem(c.Name, c.Id.ToString()))
+            CategoryList = (await _db.Categories.ToListAsync())
+                .Select(c => new SelectListItem(c.Name, c.Id.ToString()))
         };
 
         if (id is null || id == 0)
@@ -38,7 +48,7 @@ public class ProductController : Controller
         }
         else
         {
-            productUpsertModel.Product = await _db.Product.GetAsync(p => p.Id == id);
+            productUpsertModel.Product = await _db.Products.FirstOrDefaultAsync(p => p.Id == id);
             return View(productUpsertModel);
         }
     }
@@ -74,12 +84,12 @@ public class ProductController : Controller
 
             if (productUpdate.Product.Id == 0)
             {
-                await _db.Product.AddAsync(productUpdate.Product);
+                await _db.Products.AddAsync(productUpdate.Product);
                 TempData["success"] = "Product created successfully";
             }
             else
             {
-                await _db.Product.UpdateAsync(productUpdate.Product);
+                _db.Products.Update(productUpdate.Product);
                 TempData["success"] = "Product updated successfully";
             }
 
@@ -93,7 +103,7 @@ public class ProductController : Controller
     [HttpDelete]
     public async Task<IActionResult> Delete(int? id)
     {
-        Product dbProduct = await _db.Product.GetAsync(p => p.Id == id);
+        Product dbProduct = await _db.Products.FirstOrDefaultAsync(p => p.Id == id);
 
         if (dbProduct == null)
         {
@@ -107,7 +117,7 @@ public class ProductController : Controller
             System.IO.File.Delete(oldImagePath);
         }
 
-        _db.Product.Remove(dbProduct);
+        _db.Products.Remove(dbProduct);
         await _db.SaveChangesAsync();
         return Json(new { success = true, message = $"Product deleted successfully" });
     }

@@ -1,4 +1,7 @@
-﻿namespace DataAccessLibrary.Data;
+﻿using DataAccessLibrary.Entities;
+using Microsoft.EntityFrameworkCore;
+
+namespace DataAccessLibrary.Data;
 
 public class DeclutterMeDbContext : DbContext
 {

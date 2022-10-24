@@ -1,18 +1,21 @@
-﻿namespace DeclutterMeBlazorUI.Pages;
+﻿using DataAccessLibrary.Data;
+using DeclutterMeBlazorUI.Shared;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.EntityFrameworkCore;
+
+namespace DeclutterMeBlazorUI.Pages;
 
 public partial class Product
 {
-    [Inject] IUnitOfWork db { get; set; }
+    [Inject] DeclutterMeDbContext db { get; set; }
     [Inject] IWebHostEnvironment webHostEnvironment { get; set; }
 
     private IEnumerable<DataAccessLibrary.Entities.Product> _products;
     private IEnumerable<DataAccessLibrary.Entities.Category> _categories;
     private DataAccessLibrary.Entities.Product _product = new();
     private IBrowserFile _imageUpload;
-    private bool _showError = false;
-    private bool _showSuccess = false;
-    private bool _showInfo = false;
-    private string _feedback = "";
+    private Notification _notification;
 
     private bool _createMode = false;
     public bool CreateMode
@@ -26,7 +29,7 @@ public partial class Product
                 EditMode = false;
             }
 
-            ResetAlerts();
+            _notification.ResetAlert();
             _createMode = value;
         }
     }
@@ -42,7 +45,7 @@ public partial class Product
                 CreateMode = false;
             }
 
-            ResetAlerts();
+            _notification.ResetAlert();
             _editMode = value;
         }
     }
@@ -55,12 +58,14 @@ public partial class Product
 
     private async Task LoadCategories()
     {
-        _categories = await db.Category.GetAsync();
+        _categories = await db.Categories.ToListAsync();
     }
 
     private async Task LoadProducts()
     {
-        _products = await db.Product.GetWithCategoriesAsync();
+        _products = await db.Products
+            .Include(p => p.Category)
+            .ToListAsync();
     }
 
     private async Task HandleCreateProduct()
@@ -93,15 +98,13 @@ public partial class Product
         catch (Exception ex)
         {
             await InvokeAsync(StateHasChanged);
-            _feedback = $"Upload failed: {ex.Message}";
-            _showError = true;
+            _notification.AlertError($"Upload failed: {ex.Message}");
         }
 
-        await db.Product.AddAsync(_product);
+        await db.Products.AddAsync(_product);
         await db.SaveChangesAsync();
         _product = new();
-        _feedback = "Product created successfully";
-        _showSuccess = true;
+        _notification.AlertSuccess("Product created successfully");
         _createMode = false;
         await LoadProducts();
     }
@@ -136,27 +139,24 @@ public partial class Product
         catch (Exception ex)
         {
             await InvokeAsync(StateHasChanged);
-            _feedback = $"Upload failed: {ex.Message}";
-            _showError = true;
+            _notification.AlertError($"Upload failed: {ex.Message}");
         }
 
-        await db.Product.UpdateAsync(_product);
+        db.Products.Update(_product);
         await db.SaveChangesAsync();
         _product = new();
-        _feedback = "Product updated successfully";
-        _showInfo = true;
+        _notification.AlertInfo("Product updated successfully");
         _editMode = false;
         await LoadProducts();
     }
 
     private async Task HandleDeleteProduct()
     {
-        DataAccessLibrary.Entities.Product dbProduct = await db.Product.GetAsync(p => p.Id == _product.Id);
+        DataAccessLibrary.Entities.Product dbProduct = await db.Products.FirstOrDefaultAsync(p => p.Id == _product.Id);
 
         if (dbProduct == null)
         {
-            _feedback = "Product not found in database";
-            _showError = true;
+            _notification.AlertError("Product not found in database");
             return;
         }
 
@@ -167,19 +167,11 @@ public partial class Product
             File.Delete(oldImagePath);
         }
 
-        db.Product.Remove(dbProduct);
+        db.Products.Remove(dbProduct);
         await db.SaveChangesAsync();
         _product = new();
-        _feedback = "Product deleted successfully";
-        _showSuccess = true;
+        _notification.AlertSuccess("Product deleted successfully");
         await LoadProducts();
-    }
-
-    private void ResetAlerts()
-    {
-        _showSuccess = false;
-        _showError = false;
-        _showInfo = false;
     }
 
     private void HandleInputFileChange(InputFileChangeEventArgs e)

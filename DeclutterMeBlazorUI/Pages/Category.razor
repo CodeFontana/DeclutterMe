@@ -2,11 +2,7 @@
 
 <PageTitle>Categories - DeclutterMe</PageTitle>
 
-<Notification 
-    ShowError="@_showError" 
-    ShowSuccess="@_showSuccess" 
-    ShowInfo="@_showInfo"
-    Message="@_feedback" />
+<Notification @ref="_notification" />
 
 @if (_createMode)
 {

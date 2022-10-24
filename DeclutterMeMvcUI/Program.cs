@@ -1,3 +1,6 @@
+using DataAccessLibrary.Data;
+using Microsoft.EntityFrameworkCore;
+
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
@@ -5,7 +8,6 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContext<DeclutterMeDbContext>(options => 
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default"))
 );
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 WebApplication app = builder.Build();
 

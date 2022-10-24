@@ -1,11 +1,15 @@
+using DataAccessLibrary.Data;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+
 namespace DeclutterMeRazorUI.Areas.Admin.Pages.Category;
 
 [BindProperties]
 public class CreateModel : PageModel
 {
-    private readonly IUnitOfWork _db;
+    private readonly DeclutterMeDbContext _db;
 
-    public CreateModel(IUnitOfWork db)
+    public CreateModel(DeclutterMeDbContext db)
     {
         _db = db;
     }
@@ -26,7 +30,7 @@ public class CreateModel : PageModel
 
         if (ModelState.IsValid)
         {
-            await _db.Category.AddAsync(Category);
+            await _db.Categories.AddAsync(Category);
             await _db.SaveChangesAsync();
             TempData["success"] = "Category created successfully";
             return RedirectToPage("Index");

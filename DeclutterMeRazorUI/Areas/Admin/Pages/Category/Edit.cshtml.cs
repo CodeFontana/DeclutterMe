@@ -1,11 +1,16 @@
+using DataAccessLibrary.Data;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+
 namespace DeclutterMeRazorUI.Areas.Admin.Pages.Category;
 
 [BindProperties]
 public class EditModel : PageModel
 {
-    private readonly IUnitOfWork _db;
+    private readonly DeclutterMeDbContext _db;
 
-    public EditModel(IUnitOfWork db)
+    public EditModel(DeclutterMeDbContext db)
     {
         _db = db;
     }
@@ -14,7 +19,7 @@ public class EditModel : PageModel
 
     public async Task OnGet(int id)
     {
-        Category = await _db.Category.GetAsync(c => c.Id == id);
+        Category = await _db.Categories.FirstOrDefaultAsync(c => c.Id == id);
     }
 
     public async Task<IActionResult> OnPost()
@@ -26,7 +31,7 @@ public class EditModel : PageModel
 
         if (ModelState.IsValid)
         {
-            await _db.Category.UpdateAsync(Category);
+            _db.Categories.Update(Category);
             await _db.SaveChangesAsync();
             TempData["success"] = "Category updated successfully";
             return RedirectToPage("Index");

@@ -1,15 +1,17 @@
-﻿namespace DeclutterMeBlazorUI.Pages;
+﻿using DataAccessLibrary.Data;
+using DeclutterMeBlazorUI.Shared;
+using Microsoft.AspNetCore.Components;
+using Microsoft.EntityFrameworkCore;
+
+namespace DeclutterMeBlazorUI.Pages;
 
 public partial class Category
 {
-    [Inject] IUnitOfWork db { get; set; }
-
+    [Inject] DeclutterMeDbContext db { get; set; }
+    
     private IEnumerable<DataAccessLibrary.Entities.Category> _categories;
     private DataAccessLibrary.Entities.Category _category = new();
-    private bool _showError = false;
-    private bool _showSuccess = false;
-    private bool _showInfo = false;
-    private string _feedback = "";
+    private Notification _notification;
     
     private bool _createMode = false;
     public bool CreateMode
@@ -24,7 +26,7 @@ public partial class Category
                 DeleteMode = false;
             }
 
-            ResetAlerts();
+            _notification.ResetAlert();
             _createMode = value; 
         }
     }
@@ -41,7 +43,7 @@ public partial class Category
                 DeleteMode = false;
             }
 
-            ResetAlerts();
+            _notification.ResetAlert();
             _editMode = value;
         }
     }
@@ -58,7 +60,7 @@ public partial class Category
                 EditMode = false;
             }
 
-            ResetAlerts();
+            _notification.ResetAlert();
             _deleteMode = value;
         }
     }
@@ -70,23 +72,21 @@ public partial class Category
 
     private async Task LoadCategories()
     {
-        _categories = await db.Category.GetAsync();
+        _categories = await db.Categories.ToListAsync();
     }
 
     private async Task HandleCreateCategory()
     {
         if (_category.Name == _category.DisplayOrder.ToString())
         {
-            _feedback = "The DisplayOrder cannot match the Name";
-            _showError = true;
+            _notification.AlertError("The DisplayOrder cannot match the Name");
             return;
         }
 
-        await db.Category.AddAsync(_category);
+        await db.Categories.AddAsync(_category);
         await db.SaveChangesAsync();
         _category = new();
-        _feedback = "Category created successfully";
-        _showSuccess = true;
+        _notification.AlertSuccess("Category created successfully");
         _createMode = false;
         await LoadCategories();
     }
@@ -95,35 +95,25 @@ public partial class Category
     {
         if (_category.Name == _category.DisplayOrder.ToString())
         {
-            _feedback = "The DisplayOrder cannot match the Name";
-            _showError = true;
+            _notification.AlertError("The DisplayOrder cannot match the Name");
             return;
         }
 
-        await db.Category.UpdateAsync(_category);
+        db.Categories.Update(_category);
         await db.SaveChangesAsync();
         _category = new();
-        _feedback = "Category updated successfully";
-        _showInfo = true;
+        _notification.AlertInfo("Category updated successfully");
         _editMode = false;
         await LoadCategories();
     }
 
     private async Task HandleDeleteCategory()
     {
-        db.Category.Remove(_category);
+        db.Categories.Remove(_category);
         await db.SaveChangesAsync();
         _category = new();
-        _feedback = "Category deleted successfully";
-        _showSuccess = true;
+        _notification.AlertSuccess("Category deleted successfully");
         _deleteMode = false;
         await LoadCategories();
-    }
-
-    private void ResetAlerts()
-    {
-        _showSuccess = false;
-        _showError = false;
-        _showInfo = false;
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace DeclutterMeRazorUI.Pages;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+
+namespace DeclutterMeRazorUI.Pages;
 
 public class PrivacyModel : PageModel
 {
@@ -11,6 +13,7 @@ public class PrivacyModel : PageModel
 
     public void OnGet()
     {
+
     }
 }
 

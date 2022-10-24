@@ -1,14 +1,18 @@
+using DataAccessLibrary.Data;
 using DataAccessLibrary.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace DeclutterMeRazorUI.Areas.Admin.Pages.Product;
 
 public class CreateModel : PageModel
 {
-    private readonly IUnitOfWork _db;
+    private readonly DeclutterMeDbContext _db;
     private readonly IWebHostEnvironment _hostEnvironment;
 
-    public CreateModel(IUnitOfWork db, IWebHostEnvironment hostEnvironment)
+    public CreateModel(DeclutterMeDbContext db, IWebHostEnvironment hostEnvironment)
     {
         _db = db;
         _hostEnvironment = hostEnvironment;
@@ -22,7 +26,8 @@ public class CreateModel : PageModel
     public async Task OnGetAsync()
     {
         Product = new();
-        CategoryList = (await _db.Category.GetAsync()).Select(c => new SelectListItem(c.Name, c.Id.ToString()));
+        CategoryList = (await _db.Categories.ToListAsync())
+            .Select(c => new SelectListItem(c.Name, c.Id.ToString()));
     }
 
     public async Task<IActionResult> OnPostAsync(IFormFile file)
@@ -52,7 +57,7 @@ public class CreateModel : PageModel
                 Product.ImageUrl = $@"\img\products\{fileName}{extension}";
             }
 
-            await _db.Product.AddAsync(Product);
+            await _db.Products.AddAsync(Product);
             TempData["success"] = "Product created successfully";
             await _db.SaveChangesAsync();
             return RedirectToPage("Index");
