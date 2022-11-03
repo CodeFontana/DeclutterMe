@@ -142,7 +142,6 @@ public partial class Product
             _notification.AlertError($"Upload failed: {ex.Message}");
         }
 
-        db.Products.Update(_product);
         await db.SaveChangesAsync();
         _product = new();
         _notification.AlertInfo("Product updated successfully");

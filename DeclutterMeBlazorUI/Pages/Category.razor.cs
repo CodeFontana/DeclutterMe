@@ -99,7 +99,6 @@ public partial class Category
             return;
         }
 
-        db.Categories.Update(_category);
         await db.SaveChangesAsync();
         _category = new();
         _notification.AlertInfo("Category updated successfully");
