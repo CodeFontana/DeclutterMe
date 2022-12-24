@@ -67,6 +67,8 @@ public class ProductController : Controller
                 string uploads = Path.Combine(wwwRootPath, @"img\products");
                 string extension = Path.GetExtension(file.FileName);
 
+                Directory.CreateDirectory(uploads);
+
                 if (productUpdate.Product.ImageUrl != null)
                 {
                     string oldImagePath = Path.Combine(wwwRootPath, productUpdate.Product.ImageUrl.TrimStart('\\'));
