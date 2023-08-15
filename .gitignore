@@ -366,3 +366,9 @@ FodyWeavers.xsd
 DeclutterMeMvcUI/wwwroot/img/products/*
 DeclutterMeRazorUI/wwwroot/img/products/*
 DeclutterMeBlazorUI/wwwroot/img/products/*
+
+# vscode assets
+.vscode/
+
+# apple nonsense
+.DS_Store
