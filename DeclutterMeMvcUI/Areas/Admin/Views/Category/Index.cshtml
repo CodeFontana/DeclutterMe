@@ -29,12 +29,12 @@
             @foreach (Category item in Model)
             {
                 <tr>
-                    <td>@item.Name</td>
-                    <td>@item.DisplayOrder</td>
-                    <td>@item.Created</td>
+                    <td class="align-middle">@item.Name</td>
+                    <td class="align-middle">@item.DisplayOrder</td>
+                    <td class="align-middle">@item.Created</td>
                     <td>
-                        <a class="btn btn-primary" asp-controller="Category" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                        <a class="btn btn-danger" asp-controller="Category" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        <a class="btn btn-sm btn-primary" asp-controller="Category" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        <a class="btn btn-sm btn-danger" asp-controller="Category" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                     </td>
                 </tr>
             }

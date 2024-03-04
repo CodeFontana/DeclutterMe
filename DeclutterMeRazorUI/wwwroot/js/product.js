@@ -19,12 +19,15 @@ function loadDataTable() {
                 "data": "id",
                 "render": function (data) {
                     return `
-                        <a href="/Admin/Product/Edit?id=${data}" class="btn btn-primary">Edit</a>
-                        <a href="/Admin/Product/Delete?id=${data}" class="btn btn-danger">Delete</a>
+                        <a href="/Admin/Product/Edit?id=${data}" class="btn btn-sm btn-primary">Edit</a>
+                        <a href="/Admin/Product/Delete?id=${data}" class="btn btn-sm btn-danger">Delete</a>
                         `
                 },
                 "width": "20%"
             }
-        ]
+        ],
+        "createdRow": function (row, data, dataIndex) {
+            $('td', row).addClass('align-middle');
+        }
     });
 }
