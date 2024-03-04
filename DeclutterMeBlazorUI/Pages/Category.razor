@@ -111,12 +111,12 @@ else
                     @foreach (var item in _categories)
                     {
                         <tr>
-                            <td>@item.Name</td>
-                            <td>@item.DisplayOrder</td>
-                            <td>@item.Created</td>
+                            <td class="align-middle">@item.Name</td>
+                            <td class="align-middle">@item.DisplayOrder</td>
+                            <td class="align-middle">@item.Created</td>
                             <td>
-                                <button class="btn btn-primary" @onclick="() => {_category = item; EditMode = true;}">Edit</button>
-                                <button class="btn btn-danger" @onclick="() => {_category = item; DeleteMode = true;}">Delete</button>
+                                <button class="btn btn-sm btn-primary" @onclick="() => {_category = item; EditMode = true;}">Edit</button>
+                                <button class="btn btn-sm btn-danger" @onclick="() => {_category = item; DeleteMode = true;}">Delete</button>
                             </td>
                         </tr>
                     }

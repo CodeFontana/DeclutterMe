@@ -174,13 +174,13 @@ else
                     @foreach (var item in _products)
                     {
                         <tr>
-                            <td>@item.Name</td>
-                            <td>@item.ListPrice</td>
-                            <td>@item.ActualPrice</td>
-                            <td>@item.Category.Name</td>
+                            <td class="align-middle">@item.Name</td>
+                            <td class="align-middle">@item.ListPrice</td>
+                            <td class="align-middle">@item.ActualPrice</td>
+                            <td class="align-middle">@item.Category.Name</td>
                             <td>
-                                <button class="btn btn-primary" @onclick="() => {_product = item; EditMode = true;}">Edit</button>
-                                <button class="btn btn-danger" @onclick="async () => {_product = item; await HandleDeleteProduct();}">Delete</button>
+                                <button class="btn btn-sm btn-primary" @onclick="() => {_product = item; EditMode = true;}">Edit</button>
+                                <button class="btn btn-sm btn-danger" @onclick="async () => {_product = item; await HandleDeleteProduct();}">Delete</button>
                             </td>
                         </tr>
                     }

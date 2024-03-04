@@ -7,7 +7,7 @@ namespace DeclutterMeBlazorUI.Pages;
 
 public partial class Category
 {
-    [Inject] DeclutterMeDbContext db { get; set; }
+    [Inject] DeclutterMeDbContext Db { get; set; }
     
     private IEnumerable<DataAccessLibrary.Entities.Category> _categories;
     private DataAccessLibrary.Entities.Category _category = new();
@@ -72,7 +72,7 @@ public partial class Category
 
     private async Task LoadCategories()
     {
-        _categories = await db.Categories.ToListAsync();
+        _categories = await Db.Categories.ToListAsync();
     }
 
     private async Task HandleCreateCategory()
@@ -83,8 +83,8 @@ public partial class Category
             return;
         }
 
-        await db.Categories.AddAsync(_category);
-        await db.SaveChangesAsync();
+        await Db.Categories.AddAsync(_category);
+        await Db.SaveChangesAsync();
         _category = new();
         _notification.AlertSuccess("Category created successfully");
         _createMode = false;
@@ -99,7 +99,7 @@ public partial class Category
             return;
         }
 
-        await db.SaveChangesAsync();
+        await Db.SaveChangesAsync();
         _category = new();
         _notification.AlertInfo("Category updated successfully");
         _editMode = false;
@@ -108,8 +108,8 @@ public partial class Category
 
     private async Task HandleDeleteCategory()
     {
-        db.Categories.Remove(_category);
-        await db.SaveChangesAsync();
+        Db.Categories.Remove(_category);
+        await Db.SaveChangesAsync();
         _category = new();
         _notification.AlertSuccess("Category deleted successfully");
         _deleteMode = false;

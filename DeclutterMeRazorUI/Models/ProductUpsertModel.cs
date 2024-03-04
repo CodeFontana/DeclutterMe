@@ -1,7 +1,7 @@
 ﻿using DataAccessLibrary.Entities;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace DataAccessLibrary.Models;
+namespace DeclutterMeRazorUI.Models;
 
 public class ProductUpsertModel
 {

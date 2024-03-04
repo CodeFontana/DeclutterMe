@@ -1,6 +1,6 @@
 ﻿using DataAccessLibrary.Data;
 using DataAccessLibrary.Entities;
-using DataAccessLibrary.Models;
+using DeclutterMeMvcUI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
