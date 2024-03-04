@@ -1,0 +1,38 @@
+﻿@page "/Counter"
+@inject IToastService ToastService
+
+<PageTitle>Counter - DeclutterMe</PageTitle>
+
+<h1>Counter</h1>
+
+<section>
+    <p>Current count: @_currentCount</p>
+    <div class="d-flex gap-2">
+        <button class="btn btn-primary btn-lg" @onclick="IncrementCount">Click Me</button>
+        <button class="btn btn-warning btn-lg" @onclick="ResetCount">Reset</button>
+    </div>
+    <Notification Class="mt-3" @ref="_notification" />
+</section>
+
+@code {
+    private Notification? _notification;
+    private int _currentCount = 0;
+
+    private void IncrementCount()
+    {
+        _notification?.ResetAlert();
+        _currentCount += 1;
+
+        if (_currentCount % 5 == 0) { _notification?.AlertError($"The current count is {_currentCount}"); }
+        else if (_currentCount % 4 == 0) { ToastService.ShowToast(ToastLevel.Error, $"The current count is: {_currentCount}"); }
+        else if (_currentCount % 3 == 0) { ToastService.ShowToast(ToastLevel.Warning, $"The current count is: {_currentCount}"); }
+        else if (_currentCount % 2 == 0) { ToastService.ShowToast(ToastLevel.Info, $"The current count is: {_currentCount}"); }
+        else if (_currentCount % 1 == 0) { ToastService.ShowToast(ToastLevel.Success, $"The current count is: {_currentCount}"); }
+    }
+
+    private void ResetCount()
+    {
+        _currentCount = 0;
+        _notification?.ResetAlert();
+    }
+}

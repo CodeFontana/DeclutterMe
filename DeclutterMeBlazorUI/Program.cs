@@ -1,11 +1,12 @@
 using Blazored.Toast;
 using DataAccessLibrary.Data;
+using DeclutterMeBlazorUI.Components;
 using Microsoft.EntityFrameworkCore;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddRazorPages();
-builder.Services.AddServerSideBlazor();
+builder.Services.AddRazorComponents()
+    .AddInteractiveServerComponents();
 builder.Services.AddDbContext<DeclutterMeDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default"))
 );
@@ -16,15 +17,15 @@ await ApplyDbMigrations(app);
 
 if (app.Environment.IsDevelopment() == false)
 {
-    app.UseExceptionHandler("/Error");
+    app.UseExceptionHandler("/Error", createScopeForErrors: true);
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-app.UseRouting();
-app.MapBlazorHub();
-app.MapFallbackToPage("/_Host");
+app.UseAntiforgery();
+app.MapRazorComponents<App>()
+    .AddInteractiveServerRenderMode();
 app.Run();
 
 static async Task ApplyDbMigrations(WebApplication app)
@@ -41,7 +42,7 @@ static async Task ApplyDbMigrations(WebApplication app)
     catch (Exception ex)
     {
         var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "An error occured during migration.");
+        logger.LogError(ex, "An error occurred during migration.");
         Console.ReadKey();
     }
 }

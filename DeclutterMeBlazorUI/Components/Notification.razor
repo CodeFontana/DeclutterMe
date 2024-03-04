@@ -28,7 +28,6 @@ else if (ShowError)
 }
 
 @code {
-    [Inject] IToastService ToastService { get; set; }
     [Parameter] public string Class { get; set; } = "";
     [Parameter] public string Style { get; set; } = "";
 
@@ -100,7 +99,7 @@ else if (ShowError)
         }
     }
 
-    private string _message { get; set; }
+    private string? _message { get; set; }
 
     public void AlertSuccess(string message)
     {
@@ -138,25 +137,5 @@ else if (ShowError)
         ShowWarning = false;
         ShowError = false;
         StateHasChanged();
-    }
-
-    public void FireSuccess(string message)
-    {
-        ToastService.ShowSuccess(_message);
-    }
-
-    public void FireInfo(string message)
-    {
-        ToastService.ShowInfo(_message);
-    }
-
-    public void FireWarning(string message)
-    {
-        ToastService.ShowWarning(_message);
-    }
-
-    public void FireError(string message)
-    {
-        ToastService.ShowError(_message);
     }
 }
