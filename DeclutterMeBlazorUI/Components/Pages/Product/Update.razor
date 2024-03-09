@@ -1,0 +1,135 @@
+﻿@page "/Admin/Product/Update/{Id:int}"
+@inject DeclutterMeDbContext Db
+@inject IWebHostEnvironment HostEnvironment
+
+<PageTitle>Update Product - DeclutterMe</PageTitle>
+
+<div class="container p-3">
+    @if (Product is null)
+    {
+        <Spinner />
+    }
+    else
+    {
+        <EditForm Enhance Model="Product" FormName="updateProduct" OnValidSubmit="HandleUpdateProduct">
+            <div class="row">
+                <div class="col-10">
+                    <div class="border p-3 mt-4 row">
+                        <div class="col-12 pb-2">
+                            <h2 class="text-body">Update Product</h2>
+                            <hr />
+                        </div>
+                        <DataAnnotationsValidator />
+                        <div class="mb-3">
+                            <label>Name:</label>
+                            <InputText class="form-control" @bind-Value="Product.Name" />
+                            <div class="text-danger">
+                                <ValidationMessage For="@(() => Product.Name)" />
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label>Description:</label>
+                            <InputTextArea class="form-control" @bind-Value="Product.Description" rows="3" />
+                            <div class="text-danger">
+                                <ValidationMessage For="@(() => Product.Description)" />
+                            </div>
+                        </div>
+                        <div class="mb-3 col-6">
+                            <label>List Price:</label>
+                            <InputNumber class="form-control" @bind-Value="Product.ListPrice" />
+                            <div class="text-danger">
+                                <ValidationMessage For="@(() => Product.ListPrice)" />
+                            </div>
+                        </div>
+
+                        <div class="mb-3 col-6">
+                            <label>Actual Price:</label>
+                            <InputNumber class="form-control" @bind-Value="Product.ActualPrice" />
+                            <div class="text-danger">
+                                <ValidationMessage For="@(() => Product.ActualPrice)" />
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Image Url:</label>
+                            <InputFile class="form-control" OnChange="HandleInputFileChange" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Category:</label>
+                            <InputSelect class="form-control" @bind-Value="Product.CategoryId">
+                                <option value="">Select Category...</option>
+                                @foreach (var c in _categories)
+                                {
+                                    <option value=@($"{c.Id}")>@c.Name</option>
+                                }
+                            </InputSelect>
+                            <div class="text-danger">
+                                <ValidationMessage For="@(() => Product.CategoryId)" />
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary me-2">Update</button>
+                            <a class="btn btn-secondary" href="Admin/Product">Back to List</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2 mt-4">
+                    <img src="@Product.ImageUrl" style="width: 100%; border-radius: 5px; border: 1px solid #bbb9b9;" />
+                </div>
+            </div>
+        </EditForm>
+    }
+</div>
+
+@code {
+    [Parameter] public int Id { get; set; }
+    
+    [SupplyParameterFromForm(FormName = "updateProduct")]
+    public DataAccessLibrary.Entities.Product? Product { get; set; }
+
+    private IEnumerable<DataAccessLibrary.Entities.Category> _categories = default!;
+    private IBrowserFile _imageUpload = default!;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _categories ??= await Db.Categories.ToListAsync();
+        Product ??= await Db.Products
+            .Include(x => x.Category)
+            .FirstAsync(x => x.Id == Id);
+    }
+
+    private async Task HandleUpdateProduct()
+    {
+        string wwwRootPath = HostEnvironment.WebRootPath;
+
+        if (_imageUpload is not null)
+        {
+            string fileName = $"{Product!.Name}-{Guid.NewGuid()}";
+            string uploads = Path.Combine(wwwRootPath, @"img\products");
+            string extension = Path.GetExtension(_imageUpload.Name);
+
+            if (Product.ImageUrl != null)
+            {
+                string oldImagePath = Path.Combine(wwwRootPath, Product.ImageUrl.TrimStart('\\'));
+
+                if (File.Exists(oldImagePath))
+                {
+                    File.Delete(oldImagePath);
+                }
+            }
+
+            await using FileStream fs = new(Path.Combine(uploads, fileName + extension), FileMode.Create);
+            await _imageUpload.OpenReadStream(maxAllowedSize: 10240000).CopyToAsync(fs);
+            Product.ImageUrl = $@"\img\products\{fileName}{extension}";
+        }
+
+        await Db.SaveChangesAsync();
+        NavMan.NavigateTo("Admin/Product");
+    }
+
+    private void HandleInputFileChange(InputFileChangeEventArgs e)
+    {
+        _imageUpload = e.File;
+    }
+}

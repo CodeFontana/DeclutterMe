@@ -1,0 +1,105 @@
+﻿@page "/Admin/Product/Delete/{Id:int}"
+@inject DeclutterMeDbContext Db
+@inject IWebHostEnvironment HostEnvironment
+@inject NavigationManager NavMan
+@attribute [StreamRendering]
+
+<PageTitle>Delete Product - DeclutterMe</PageTitle>
+
+<div class="container p-3">
+    @if (Product is null)
+    {
+        <Spinner />
+    }
+    else
+    {
+        <EditForm Enhance Model="Product" FormName="deleteProduct" OnValidSubmit="HandleDeleteProduct">
+            <InputNumber @bind-Value="Product.Id" hidden />
+            <InputText @bind-Value="Product.Name" hidden />
+            <InputText @bind-Value="Product.ImageUrl" hidden />
+            <div class="row">
+                <div class="col-10">
+                    <div class="border p-3 mt-4 row">
+                        <div class="col-12 pb-2">
+                            <h2 class="text-body">Delete Product</h2>
+                            <hr />
+                        </div>
+                        <DataAnnotationsValidator />
+                        <div class="mb-3">
+                            <label>Name:</label>
+                            <InputText class="form-control" @bind-Value="Product.Name" />
+                        </div>
+                        <div class="mb-3">
+                            <label>Description:</label>
+                            <InputTextArea class="form-control" @bind-Value="Product.Description" rows="3" />
+                        </div>
+                        <div class="mb-3 col-6">
+                            <label>List Price:</label>
+                            <InputNumber class="form-control" @bind-Value="Product.ListPrice" />
+                        </div>
+
+                        <div class="mb-3 col-6">
+                            <label>Actual Price:</label>
+                            <InputNumber class="form-control" @bind-Value="Product.ActualPrice" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Category:</label>
+                            <InputSelect class="form-control" @bind-Value="Product.CategoryId" >
+                                <option value="">Select Category...</option>
+                                @if (_categories != null)
+                                {
+                                    @foreach (var c in _categories)
+                                    {
+                                        <option value=@($"{c.Id}")>@c.Name</option>
+                                    }
+                                }
+                            </InputSelect>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-danger me-2">Delete</button>
+                            <a class="btn btn-secondary" href="Admin/Product">Back to List</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2 mt-4">
+                    <img src="@Product.ImageUrl" style="width: 100%; border-radius: 5px; border: 1px solid #bbb9b9;" />
+                </div>
+            </div>
+        </EditForm>
+    }
+</div>
+
+@code {
+    [Parameter] public int Id { get; set; }
+
+    [SupplyParameterFromForm(FormName = "deleteProduct")]
+    public DataAccessLibrary.Entities.Product? Product { get; set; }
+
+    private IEnumerable<DataAccessLibrary.Entities.Category> _categories = default!;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _categories ??= await Db.Categories.ToListAsync();
+        Product ??= await Db.Products
+            .Include(x => x.Category)
+            .FirstAsync(x => x.Id == Id);
+    }
+
+    private async Task HandleDeleteProduct()
+    {
+        if (string.IsNullOrWhiteSpace(Product!.ImageUrl) == false)
+        {
+            string oldImagePath = Path.Combine(HostEnvironment.WebRootPath, Product!.ImageUrl.TrimStart('\\'));
+
+            if (File.Exists(oldImagePath))
+            {
+                File.Delete(oldImagePath);
+            }
+        }
+
+        Db.Products.Remove(Product);
+        await Db.SaveChangesAsync();
+        NavMan.NavigateTo("Admin/Product");
+    }
+}

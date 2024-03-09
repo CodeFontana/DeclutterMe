@@ -1,0 +1,71 @@
+﻿@page "/Admin/Product"
+@inject DeclutterMeDbContext Db
+@inject IWebHostEnvironment HostEnvironment
+@attribute [StreamRendering]
+
+<PageTitle>Products - DeclutterMe</PageTitle>
+
+<Notification @ref="_notification" />
+
+<div class="container p-3">
+    <div class="row py-4">
+        <div class="col-6">
+            <h2 class="text-body">Product List</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a class="btn btn-primary" href="Admin/Product/Create">
+                <i class="bi bi-plus-circle me-2"></i>
+                Create New Product
+            </a>
+        </div>
+    </div>
+
+    @if (_products == null)
+    {
+        <Spinner />
+    }
+    else
+    {
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>List Price</th>
+                    <th>Actual Price</th>
+                    <th>Category</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (_products is not null)
+                {
+                    @foreach (var item in _products)
+                    {
+                        <tr>
+                            <td class="align-middle">@item.Name</td>
+                            <td class="align-middle">@item.ListPrice</td>
+                            <td class="align-middle">@item.ActualPrice</td>
+                            <td class="align-middle">@item.Category.Name</td>
+                            <td>
+                                <a class="btn btn-sm btn-primary mx-2" href="@($"Admin/Product/Update/{item.Id}")">Update</a>
+                                <a class="btn btn-sm btn-danger" href="@($"Admin/Product/Delete/{item.Id}")">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+@code {
+    private IEnumerable<DataAccessLibrary.Entities.Product> _products = default!;
+    private Notification _notification = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _products = await Db.Products
+            .Include(p => p.Category)
+            .ToListAsync();
+    }
+}

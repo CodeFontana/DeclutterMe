@@ -1,0 +1,130 @@
+﻿@page "/Admin/Product/Create"
+@inject DeclutterMeDbContext Db
+@inject IWebHostEnvironment HostEnvironment
+@inject NavigationManager NavMan
+
+<PageTitle>Create Product - DeclutterMe</PageTitle>
+
+<div class="container p-3">
+    @if (_categories == null)
+    {
+        <Spinner />
+    }
+    else
+    {
+        <EditForm Enhance Model="Product" FormName="createProduct" OnValidSubmit="HandleCreateProduct">
+            <div class="row">
+                <div class="col-12">
+                    <div class="border p-3 mt-4 row">
+                        <div class="col-12 pb-2">
+                            <h2 class="text-body">Create Product</h2>
+                            <hr />
+                        </div>
+                        <DataAnnotationsValidator />
+                        <div class="mb-3">
+                            <label>Name:</label>
+                            <InputText class="form-control" @bind-Value="Product!.Name" />
+                            <div class="text-danger">
+                                <ValidationMessage class="text-danger" For="@(() => Product.Name)" />
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label>Description:</label>
+                            <InputTextArea class="form-control" @bind-Value="Product.Description" rows="3" />
+                            <div class="text-danger">
+                                <ValidationMessage class="text-danger" For="@(() => Product.Description)" />
+                            </div>
+                        </div>
+                        <div class="mb-3 col-6">
+                            <label>List Price:</label>
+                            <InputNumber class="form-control" @bind-Value="Product.ListPrice" />
+                            <div class="text-danger">
+                                <ValidationMessage class="text-danger" For="@(() => Product.ListPrice)" />
+                            </div>
+                        </div>
+
+                        <div class="mb-3 col-6">
+                            <label>Actual Price:</label>
+                            <InputNumber class="form-control" @bind-Value="Product.ActualPrice" />
+                            <div class="text-danger">
+                                <ValidationMessage class="text-danger" For="@(() => Product.ActualPrice)" />
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Image Url:</label>
+                            <InputFile class="form-control" OnChange="HandleInputFileChange" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Category:</label>
+                            <InputSelect class="form-control" @bind-Value="Product.CategoryId">
+                                <option value="">Select Category...</option>
+                                @foreach (var c in _categories)
+                                {
+                                    <option value=@($"{c.Id}")>@c.Name</option>
+                                }
+                            </InputSelect>
+                            <div class="text-danger">
+                                <ValidationMessage class="text-danger" For="@(() => Product.CategoryId)" />
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary me-2">Create</button>
+                            <a class="btn btn-secondary" href="Admin/Product">Back to List</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </EditForm>
+    }
+</div>
+
+@code {
+    [SupplyParameterFromForm(FormName = "createProduct")]
+    public DataAccessLibrary.Entities.Product? Product { get; set; }
+    
+    private IEnumerable<DataAccessLibrary.Entities.Category> _categories = default!;
+    private IBrowserFile _imageUpload = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _categories = await Db.Categories.ToListAsync();
+        Product ??= new();
+    }
+
+    private async Task HandleCreateProduct()
+    {
+        string wwwRootPath = HostEnvironment.WebRootPath;
+
+        if (_imageUpload is not null)
+        {
+            string fileName = $"{Product!.Name}-{Guid.NewGuid()}";
+            string uploads = Path.Combine(wwwRootPath, @"img\products");
+            string extension = Path.GetExtension(_imageUpload.Name);
+
+            if (Product.ImageUrl != null)
+            {
+                string oldImagePath = Path.Combine(wwwRootPath, Product.ImageUrl.TrimStart('\\'));
+
+                if (File.Exists(oldImagePath))
+                {
+                    File.Delete(oldImagePath);
+                }
+            }
+
+            await using FileStream fs = new(Path.Combine(uploads, fileName + extension), FileMode.Create);
+            await _imageUpload.OpenReadStream(maxAllowedSize: 5120000).CopyToAsync(fs);
+            Product.ImageUrl = $@"\img\products\{fileName}{extension}";
+        }
+
+        await Db.Products.AddAsync(Product!);
+        await Db.SaveChangesAsync();
+        NavMan.NavigateTo("Admin/Product");
+    }
+
+    private void HandleInputFileChange(InputFileChangeEventArgs e)
+    {
+        _imageUpload = e.File;
+    }
+}
