@@ -1,0 +1,61 @@
+﻿@page "/Admin/Category/Update/{Id:int}"
+@inject DeclutterMeDbContext Db
+@inject NavigationManager NavMan
+
+<PageTitle>Update Category - DeclutterMe</PageTitle>
+
+<div class="container p-3">
+    @if (Category == null)
+    {
+        <Spinner />
+    }
+    else
+    {
+        <EditForm Enhance Model="Category" FormName="updateCategory" OnValidSubmit="HandleUpdateCategory">
+            <div class="border p-3 mt-4">
+                <div class="row pb-2">
+                    <h2 class="text-body">Update Category</h2>
+                    <hr />
+                </div>
+                <DataAnnotationsValidator />
+                <div class="mb-3">
+                    <label>Name:</label>
+                    <InputText class="form-control" @bind-Value="Category!.Name" />
+                    <div class="text-danger">
+                        <ValidationMessage For="@(() => Category.Name)" />
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label>Display Order:</label>
+                    <InputNumber class="form-control" @bind-Value="Category.DisplayOrder" />
+                    <div class="text-danger">
+                        <ValidationMessage class="text-danger" For="@(() => Category.DisplayOrder)" />
+                    </div>
+                </div>
+                <InputNumber @bind-Value="Category.Id" hidden />
+                <InputDate Type="InputDateType.DateTimeLocal" @bind-Value="Category.Created" hidden />
+                <button type="submit" class="btn btn-primary me-2">Update</button>
+                <a class="btn btn-secondary" href="Admin/Category">Back to List</a>
+            </div>
+        </EditForm>
+    }
+</div>
+
+@code {
+    [Parameter] public int Id { get; set; }
+
+    [SupplyParameterFromForm(FormName = "updateCategory")]
+    public DataAccessLibrary.Entities.Category? Category { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        Category ??= await Db.Categories.FirstAsync(x => x.Id == Id);
+    }
+
+    private async Task HandleUpdateCategory()
+    {
+        Db.Categories.Update(Category!);
+        await Db.SaveChangesAsync();
+        NavMan.NavigateTo("/Admin/Category");
+    }
+}

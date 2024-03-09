@@ -1,0 +1,54 @@
+﻿@page "/Admin/Category/Delete/{Id:int}"
+@inject DeclutterMeDbContext Db
+@inject NavigationManager NavMan
+
+<PageTitle>Delete Category - DeclutterMe</PageTitle>
+
+<div class="container p-3">
+    @if (Category == null)
+    {
+        <Spinner />
+    }
+    else
+    {
+        <EditForm Enhance Model="Category" FormName="deleteCategory" OnValidSubmit="HandleDeleteCategory">
+            <div class="border p-3 mt-4">
+                <div class="row pb-2">
+                    <h2 class="text-body">Delete Category</h2>
+                    <hr />
+                </div>
+                <div class="mb-3">
+                    <label>Name:</label>
+                    <InputText class="form-control" @bind-Value="Category.Name" disabled />
+                </div>
+                <div class="mb-3">
+                    <label>Display Order:</label>
+                    <InputNumber class="form-control" @bind-Value="Category.DisplayOrder" disabled />
+                </div>
+                <InputNumber @bind-Value="Category.Id" hidden />
+                <InputDate Type="InputDateType.DateTimeLocal" @bind-Value="Category.Created" hidden />
+                <button type="submit" class="btn btn-danger me-2">Delete</button>
+                <a class="btn btn-secondary" href="Admin/Category">Back to List</a>
+            </div>
+        </EditForm>
+    }
+</div>
+
+@code {
+    [Parameter] public int Id { get; set; }
+
+    [SupplyParameterFromForm(FormName = "deleteCategory")]
+    public DataAccessLibrary.Entities.Category? Category { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        Category ??= await Db.Categories.FirstAsync(x => x.Id == Id);
+    }
+
+    private async Task HandleDeleteCategory()
+    {
+        Db.Categories.Remove(Category!);
+        await Db.SaveChangesAsync();
+        NavMan.NavigateTo("/Admin/Category");
+    }
+}

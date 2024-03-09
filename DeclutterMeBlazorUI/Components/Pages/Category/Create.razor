@@ -1,0 +1,51 @@
+﻿@page "/Admin/Category/Create"
+@inject DeclutterMeDbContext Db
+@inject NavigationManager NavMan
+
+<PageTitle>Create Category - DeclutterMe</PageTitle>
+
+<div class="container p-3">
+    <EditForm Enhance Model="Category" FormName="createCategory" OnValidSubmit="HandleCreateCategory">
+        <div class="border p-3 mt-4">
+            <div class="row pb-2">
+                <h2 class="text-body">Create Category</h2>
+                <hr />
+            </div>
+            <DataAnnotationsValidator />
+            <div class="mb-3">
+                <label>Name:</label>
+                <InputText class="form-control" @bind-Value="Category!.Name" />
+                <div class="text-danger">
+                    <ValidationMessage class="text-danger" For="@(() => Category.Name)" />
+                </div>
+            </div>
+            <div class="mb-3">
+                <label>Display Order:</label>
+                <InputNumber class="form-control" @bind-Value="Category.DisplayOrder" />
+                <div class="text-danger">
+                    <ValidationMessage class="text-danger" For="@(() => Category.DisplayOrder)" />
+                </div>
+            </div>
+            <InputDate Type="InputDateType.DateTimeLocal" @bind-Value="Category.Created" hidden />
+            <button type="submit" class="btn btn-primary me-2">Create</button>
+            <a class="btn btn-secondary" href="Admin/Category">Back to List</a>
+        </div>
+    </EditForm>
+</div>
+
+@code {
+    [SupplyParameterFromForm(FormName = "createCategory")]
+    public DataAccessLibrary.Entities.Category? Category { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Category ??= new();
+    }
+
+    private async Task HandleCreateCategory()
+    {
+        await Db.Categories.AddAsync(Category!);
+        await Db.SaveChangesAsync();
+        NavMan.NavigateTo("/Admin/Category");
+    }
+}
