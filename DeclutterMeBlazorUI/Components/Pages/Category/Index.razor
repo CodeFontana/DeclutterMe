@@ -13,7 +13,7 @@
             <h2 class="text-body">Category List</h2>
         </div>
         <div class="col-6 text-end">
-            <a class="btn btn-primary" href="/Admin/Category/Create">
+            <a class="btn btn-primary" href="Admin/Category/Create">
                 <i class="bi bi-plus-circle me-2"></i>
                 Create New Category
             </a>
@@ -45,8 +45,8 @@
                             <td class="align-middle">@item.DisplayOrder</td>
                             <td class="align-middle">@item.Created</td>
                             <td>
-                                <a class="btn btn-sm btn-primary mx-2" href="@($"/Admin/Category/Update/{item.Id}")">Update</a>
-                                <a class="btn btn-sm btn-danger" href="@($"/Admin/Category/Delete/{item.Id}")">Delete</a>
+                                <a class="btn btn-sm btn-primary mx-2" href="@($"Admin/Category/Update/{item.Id}")">Update</a>
+                                <a class="btn btn-sm btn-danger" href="@($"Admin/Category/Delete/{item.Id}")">Delete</a>
                             </td>
                         </tr>
                     }
@@ -62,21 +62,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadCategories();
-    }
-
-    private async Task LoadCategories()
-    {
         _categories = await Db.Categories.ToListAsync();
-    }
-
-    private async Task HandleEditCategory()
-    {
-        
-    }
-
-    private async Task HandleDeleteCategory()
-    {
-        
     }
 }

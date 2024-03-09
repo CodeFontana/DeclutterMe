@@ -49,6 +49,6 @@
     {
         Db.Categories.Remove(Category!);
         await Db.SaveChangesAsync();
-        NavMan.NavigateTo("/Admin/Category");
+        NavMan.NavigateTo("Admin/Category");
     }
 }

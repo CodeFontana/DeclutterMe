@@ -46,6 +46,6 @@
     {
         await Db.Categories.AddAsync(Category!);
         await Db.SaveChangesAsync();
-        NavMan.NavigateTo("/Admin/Category");
+        NavMan.NavigateTo("Admin/Category");
     }
 }
