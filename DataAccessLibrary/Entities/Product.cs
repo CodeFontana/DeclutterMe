@@ -1,8 +1,11 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Http;
 
 namespace DataAccessLibrary.Entities;
+
+#nullable disable
 
 public class Product
 {
@@ -30,6 +33,9 @@ public class Product
     [MaxLength(200, ErrorMessage = "ImageURL must be less than 200 characters.")]
     [DisplayName("Image URL")]
     public string ImageUrl { get; set; }
+
+    [NotMapped]
+    public IFormFile ImageFile { get; set; }
 
     public Category Category { get; set; }
 

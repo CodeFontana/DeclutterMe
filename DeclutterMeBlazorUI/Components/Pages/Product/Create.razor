@@ -1,4 +1,5 @@
 ﻿@page "/Admin/Product/Create"
+@using System.Net
 @inject DeclutterMeDbContext Db
 @inject IWebHostEnvironment HostEnvironment
 @inject NavigationManager NavMan
@@ -12,7 +13,7 @@
     }
     else
     {
-        <EditForm Enhance Model="Product" FormName="createProduct" OnValidSubmit="HandleCreateProduct">
+        <EditForm Enhance Model="Product" FormName="createProduct" OnValidSubmit="HandleCreateProduct" method="post" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-12">
                     <div class="border p-3 mt-4 row">
@@ -53,7 +54,7 @@
 
                         <div class="mb-3">
                             <label>Image Url:</label>
-                            <InputFile class="form-control" OnChange="HandleInputFileChange" />
+                            <InputFile class="form-control" name="Product.ImageFile" />
                         </div>
 
                         <div class="mb-3">
@@ -82,10 +83,9 @@
 
 @code {
     [SupplyParameterFromForm(FormName = "createProduct")]
-    public DataAccessLibrary.Entities.Product? Product { get; set; }
-    
+    internal DataAccessLibrary.Entities.Product Product { get; set; } = default!;
+
     private IEnumerable<DataAccessLibrary.Entities.Category> _categories = default!;
-    private IBrowserFile _imageUpload = default!;
 
     protected override async Task OnInitializedAsync()
     {
@@ -95,36 +95,27 @@
 
     private async Task HandleCreateProduct()
     {
-        string wwwRootPath = HostEnvironment.WebRootPath;
+        string path = Path.Combine(HostEnvironment.WebRootPath, @"img/products");
 
-        if (_imageUpload is not null)
+        if (Product!.ImageFile != null)
         {
-            string fileName = $"{Product!.Name}-{Guid.NewGuid()}";
-            string uploads = Path.Combine(wwwRootPath, @"img\products");
-            string extension = Path.GetExtension(_imageUpload.Name);
-
-            if (Product.ImageUrl != null)
-            {
-                string oldImagePath = Path.Combine(wwwRootPath, Product.ImageUrl.TrimStart('\\'));
-
-                if (File.Exists(oldImagePath))
-                {
-                    File.Delete(oldImagePath);
-                }
-            }
-
-            await using FileStream fs = new(Path.Combine(uploads, fileName + extension), FileMode.Create);
-            await _imageUpload.OpenReadStream(maxAllowedSize: 5120000).CopyToAsync(fs);
-            Product.ImageUrl = $@"\img\products\{fileName}{extension}";
+            string safeFileName = WebUtility.HtmlEncode(Product.ImageFile.FileName);
+            await using FileStream fs = new(Path.Combine(path, safeFileName), FileMode.Create);
+            await Product.ImageFile.CopyToAsync(fs);
         }
 
-        await Db.Products.AddAsync(Product!);
+        DataAccessLibrary.Entities.Product product = new()
+        {
+            Name = Product.Name,
+            Description = Product.Description,
+            ListPrice = Product.ListPrice,
+            ActualPrice = Product.ActualPrice,
+            ImageUrl = Product.ImageFile != null ? $"img/products/{Product.ImageFile.FileName}" : "",
+            CategoryId = Product.CategoryId
+        };
+
+        await Db.Products.AddAsync(product);
         await Db.SaveChangesAsync();
         NavMan.NavigateTo("Admin/Product");
-    }
-
-    private void HandleInputFileChange(InputFileChangeEventArgs e)
-    {
-        _imageUpload = e.File;
     }
 }

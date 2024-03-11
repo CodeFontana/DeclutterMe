@@ -3,6 +3,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DataAccessLibrary.Entities;
 
+#nullable disable
+
 public class Category
 {
     public int Id { get; set; }

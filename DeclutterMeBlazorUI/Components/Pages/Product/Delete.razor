@@ -13,7 +13,7 @@
     }
     else
     {
-        <EditForm Enhance Model="Product" FormName="deleteProduct" OnValidSubmit="HandleDeleteProduct">
+        <EditForm Enhance Model="Product" FormName="deleteProduct" OnValidSubmit="HandleDeleteProduct" method="post">
             <InputNumber @bind-Value="Product.Id" hidden />
             <InputText @bind-Value="Product.Name" hidden />
             <InputText @bind-Value="Product.ImageUrl" hidden />
