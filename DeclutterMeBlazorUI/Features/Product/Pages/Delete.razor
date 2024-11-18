@@ -13,7 +13,7 @@
     }
     else
     {
-        <EditForm Enhance Model="Product" FormName="deleteProduct" OnValidSubmit="HandleDeleteProduct" method="post">
+        <EditForm Enhance Model="Product" FormName="deleteProduct" OnSubmit="HandleDeleteProduct" method="post">
             <InputNumber @bind-Value="Product.Id" hidden />
             <InputText @bind-Value="Product.Name" hidden />
             <InputText @bind-Value="Product.ImageUrl" hidden />
@@ -25,37 +25,20 @@
                             <hr />
                         </div>
                         <DataAnnotationsValidator />
-                        <div class="mb-3">
-                            <label>Name:</label>
-                            <InputText class="form-control" @bind-Value="Product.Name" />
-                        </div>
-                        <div class="mb-3">
-                            <label>Description:</label>
-                            <InputTextArea class="form-control" @bind-Value="Product.Description" rows="3" />
-                        </div>
-                        <div class="mb-3 col-6">
-                            <label>List Price:</label>
-                            <InputNumber class="form-control" @bind-Value="Product.ListPrice" />
-                        </div>
-
-                        <div class="mb-3 col-6">
-                            <label>Actual Price:</label>
-                            <InputNumber class="form-control" @bind-Value="Product.ActualPrice" />
-                        </div>
-
-                        <div class="mb-3">
-                            <label>Category:</label>
-                            <InputSelect class="form-control" @bind-Value="Product.CategoryId" >
-                                <option value="">Select Category...</option>
-                                @if (_categories != null)
+                        <BSInputText Class="mb-3" Id="productName" Label="Name" @bind-Value="Product.Name" disabled />
+                        <BSInputTextArea Class="mb-3" Id="productDescription" @bind-Value="Product.Description" Rows="3" disabled />
+                        <BSInputNumber Class="mb-3 col-6" Id="listPrice" Label="List Price" @bind-Value="Product.ListPrice" disabled />
+                        <BSInputNumber Class="mb-3 col-6" Id="actualPrice" Label="Actual Price" @bind-Value="Product.ActualPrice" disabled />
+                        <BSInputSelect Class="mb-3" Id="selectCategory" Label="Category" @bind-Value="Product.CategoryId" disabled>
+                            <option value="">Select Category...</option>
+                            @if (_categories != null)
+                            {
+                                @foreach (var c in _categories)
                                 {
-                                    @foreach (var c in _categories)
-                                    {
-                                        <option value=@($"{c.Id}")>@c.Name</option>
-                                    }
+                                    <option value=@($"{c.Id}")>@c.Name</option>
                                 }
-                            </InputSelect>
-                        </div>
+                            }
+                        </BSInputSelect>
                         <div class="col-12">
                             <button type="submit" class="btn btn-danger me-2">Delete</button>
                             <a class="btn btn-secondary" href="Admin/Product">Back to List</a>

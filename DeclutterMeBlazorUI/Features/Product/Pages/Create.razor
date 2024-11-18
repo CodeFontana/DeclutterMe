@@ -22,54 +22,24 @@
                             <hr />
                         </div>
                         <DataAnnotationsValidator />
-                        <div class="mb-3">
-                            <label>Name:</label>
-                            <InputText class="form-control" @bind-Value="Product!.Name" />
-                            <div class="text-danger">
-                                <ValidationMessage class="text-danger" For="@(() => Product.Name)" />
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label>Description:</label>
-                            <InputTextArea class="form-control" @bind-Value="Product.Description" rows="3" />
-                            <div class="text-danger">
-                                <ValidationMessage class="text-danger" For="@(() => Product.Description)" />
-                            </div>
-                        </div>
-                        <div class="mb-3 col-6">
-                            <label>List Price:</label>
-                            <InputNumber class="form-control" @bind-Value="Product.ListPrice" />
-                            <div class="text-danger">
-                                <ValidationMessage class="text-danger" For="@(() => Product.ListPrice)" />
-                            </div>
-                        </div>
-
-                        <div class="mb-3 col-6">
-                            <label>Actual Price:</label>
-                            <InputNumber class="form-control" @bind-Value="Product.ActualPrice" />
-                            <div class="text-danger">
-                                <ValidationMessage class="text-danger" For="@(() => Product.ActualPrice)" />
-                            </div>
-                        </div>
+                        <BSInputText Class="mb-3" Id="productName" Label="Name" @bind-Value="Product!.Name" />
+                        <BSInputTextArea Class="mb-3" Id="productDescription" @bind-Value="Product.Description" Rows="3" />
+                        <BSInputNumber Class="mb-3 col-6" Id="listPrice" Label="List Price" @bind-Value="Product.ListPrice" />
+                        <BSInputNumber Class="mb-3 col-6" Id="actualPrice" Label="Actual Price" @bind-Value="Product.ActualPrice" />
 
                         <div class="mb-3">
                             <label>Image Url:</label>
                             <InputFile class="form-control" name="Product.ImageFile" />
                         </div>
 
-                        <div class="mb-3">
-                            <label>Category:</label>
-                            <InputSelect class="form-control" @bind-Value="Product.CategoryId">
-                                <option value="">Select Category...</option>
-                                @foreach (var c in _categories)
-                                {
-                                    <option value=@($"{c.Id}")>@c.Name</option>
-                                }
-                            </InputSelect>
-                            <div class="text-danger">
-                                <ValidationMessage class="text-danger" For="@(() => Product.CategoryId)" />
-                            </div>
-                        </div>
+                        <BSInputSelect Class="mb-3" Id="selectCategory" Label="Category" @bind-Value="Product.CategoryId">
+                            <option value="">Select Category...</option>
+                            @foreach (var c in _categories)
+                            {
+                                <option value=@($"{c.Id}")>@c.Name</option>
+                            }
+                        </BSInputSelect>
+
                         <div class="col-12">
                             <button type="submit" class="btn btn-primary me-2">Create</button>
                             <a class="btn btn-secondary" href="Admin/Product">Back to List</a>
