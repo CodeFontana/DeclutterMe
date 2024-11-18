@@ -1,6 +1,6 @@
 using Blazored.Toast;
 using DataAccessLibrary.Data;
-using DeclutterMeBlazorUI.Components;
+using DeclutterMeBlazorUI.Features;
 using Microsoft.EntityFrameworkCore;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
