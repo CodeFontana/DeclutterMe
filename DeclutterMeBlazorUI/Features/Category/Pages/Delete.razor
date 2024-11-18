@@ -17,14 +17,8 @@
                     <h2 class="text-body">Delete Category</h2>
                     <hr />
                 </div>
-                <div class="mb-3">
-                    <label>Name:</label>
-                    <InputText class="form-control" @bind-Value="Category.Name" disabled />
-                </div>
-                <div class="mb-3">
-                    <label>Display Order:</label>
-                    <InputNumber class="form-control" @bind-Value="Category.DisplayOrder" disabled />
-                </div>
+                <BSInputText Class="mb-3" Id="categoryName" Label="Name" @bind-Value="Category.Name" disabled />
+                <BSInputNumber Class="mb-3" Id="displayOrder" Label="Display Order" @bind-Value="Category.DisplayOrder" disabled/>
                 <InputNumber @bind-Value="Category.Id" hidden />
                 <InputDate Type="InputDateType.DateTimeLocal" @bind-Value="Category.Created" hidden />
                 <button type="submit" class="btn btn-danger me-2">Delete</button>
