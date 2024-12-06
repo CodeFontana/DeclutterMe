@@ -1,0 +1,22 @@
+[
+  {
+    "Name": "All",
+    "Projects": [
+      {
+        "Path": "DeclutterMeMvcUI\\DeclutterMeMvcUI.csproj",
+        "Action": "Start",
+        "DebugTarget": "DeclutterMeMvcUI"
+      },
+      {
+        "Path": "DeclutterMeRazorUI\\DeclutterMeRazorUI.csproj",
+        "Action": "Start",
+        "DebugTarget": "DeclutterMeRazorUI"
+      },
+      {
+        "Path": "DeclutterMeBlazorUI\\DeclutterMeBlazorUI.csproj",
+        "Action": "Start",
+        "DebugTarget": "DeclutterMeBlazorUI"
+      }
+    ]
+  }
+]
