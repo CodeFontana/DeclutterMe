@@ -13,7 +13,7 @@
     }
     else
     {
-        <EditForm Enhance Model="Product" FormName="updateProduct" OnValidSubmit="HandleUpdateProduct" method="post" enctype="multipart/form-data">
+        <EditForm Enhance Model="Product" FormName="updateProduct" OnValidSubmit="HandleUpdateProductAsync" method="post" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-10">
                     <div class="border p-3 mt-4 row">
@@ -71,7 +71,7 @@
             .FirstAsync(x => x.Id == Id);
     }
 
-    private async Task HandleUpdateProduct()
+    private async Task HandleUpdateProductAsync()
     {
         string path = Path.Combine(HostEnvironment.WebRootPath, @"img/products");
 

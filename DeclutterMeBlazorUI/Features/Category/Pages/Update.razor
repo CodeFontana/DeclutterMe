@@ -11,7 +11,7 @@
     }
     else
     {
-        <EditForm Enhance Model="Category" FormName="updateCategory" OnValidSubmit="HandleUpdateCategory" method="post">
+        <EditForm Enhance Model="Category" FormName="updateCategory" OnValidSubmit="HandleUpdateCategoryAsync" method="post">
             <div class="border p-3 mt-4">
                 <div class="row pb-2">
                     <h2 class="text-body">Update Category</h2>
@@ -40,7 +40,7 @@
         Category ??= await Db.Categories.FirstAsync(x => x.Id == Id);
     }
 
-    private async Task HandleUpdateCategory()
+    private async Task HandleUpdateCategoryAsync()
     {
         Db.Categories.Update(Category!);
         await Db.SaveChangesAsync();

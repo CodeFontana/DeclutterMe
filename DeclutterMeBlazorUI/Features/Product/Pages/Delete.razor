@@ -13,7 +13,7 @@
     }
     else
     {
-        <EditForm Enhance Model="Product" FormName="deleteProduct" OnSubmit="HandleDeleteProduct" method="post">
+        <EditForm Enhance Model="Product" FormName="deleteProduct" OnSubmit="HandleDeleteProductAsync" method="post">
             <InputNumber @bind-Value="Product.Id" hidden />
             <InputText @bind-Value="Product.Name" hidden />
             <InputText @bind-Value="Product.ImageUrl" hidden />
@@ -69,7 +69,7 @@
             .FirstAsync(x => x.Id == Id);
     }
 
-    private async Task HandleDeleteProduct()
+    private async Task HandleDeleteProductAsync()
     {
         if (string.IsNullOrWhiteSpace(Product!.ImageUrl) == false)
         {

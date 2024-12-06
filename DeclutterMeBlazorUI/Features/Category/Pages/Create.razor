@@ -5,7 +5,7 @@
 <PageTitle>Create Category - DeclutterMe</PageTitle>
 
 <div class="container p-3">
-    <EditForm Enhance Model="Category" FormName="createCategory" OnValidSubmit="HandleCreateCategory" method="post">
+    <EditForm Enhance Model="Category" FormName="createCategory" OnValidSubmit="HandleCreateCategoryAsync" method="post">
         <div class="border p-3 mt-4">
             <div class="row pb-2">
                 <h2 class="text-body">Create Category</h2>
@@ -30,7 +30,7 @@
         Category ??= new();
     }
 
-    private async Task HandleCreateCategory()
+    private async Task HandleCreateCategoryAsync()
     {
         await Db.Categories.AddAsync(Category!);
         await Db.SaveChangesAsync();

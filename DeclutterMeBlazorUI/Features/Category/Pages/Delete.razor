@@ -11,7 +11,7 @@
     }
     else
     {
-        <EditForm Enhance Model="Category" FormName="deleteCategory" OnValidSubmit="HandleDeleteCategory" method="post">
+        <EditForm Enhance Model="Category" FormName="deleteCategory" OnValidSubmit="HandleDeleteCategoryAsync" method="post">
             <div class="border p-3 mt-4">
                 <div class="row pb-2">
                     <h2 class="text-body">Delete Category</h2>
@@ -39,7 +39,7 @@
         Category ??= await Db.Categories.FirstAsync(x => x.Id == Id);
     }
 
-    private async Task HandleDeleteCategory()
+    private async Task HandleDeleteCategoryAsync()
     {
         Db.Categories.Remove(Category!);
         await Db.SaveChangesAsync();

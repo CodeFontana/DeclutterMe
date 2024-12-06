@@ -13,7 +13,7 @@
     }
     else
     {
-        <EditForm Enhance Model="Product" FormName="createProduct" OnValidSubmit="HandleCreateProduct" method="post" enctype="multipart/form-data">
+        <EditForm Enhance Model="Product" FormName="createProduct" OnValidSubmit="HandleCreateProductAsync" method="post" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-12">
                     <div class="border p-3 mt-4 row">
@@ -63,7 +63,7 @@
         Product ??= new();
     }
 
-    private async Task HandleCreateProduct()
+    private async Task HandleCreateProductAsync()
     {
         string path = Path.Combine(HostEnvironment.WebRootPath, @"img/products");
 
