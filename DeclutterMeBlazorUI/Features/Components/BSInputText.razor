@@ -1,40 +1,122 @@
 ﻿@using System.Linq.Expressions
 
-<div class="@($"input-group {Class}")">
-    <span class="input-group-text" style="@($"width: {LabelWidth}px;")">@Label</span>
-    <InputText id="@Id"
-               class="form-control"
-               Value="@Value"
-               ValueChanged="ValueChanged"
-               ValueExpression="ValueExpression"
-               @oninput="OnInput"
-               @onfocus="OnFocus"
-               @onblur="OnBlur"
-               @onclick="OnClick"
-               @onchange="OnChange"
-               @onmouseover="OnMouseOver"
-               @onmouseout="OnMouseOut"
-               Disabled="@Disabled" />
-</div>
-<ValidationMessage For="@ValueExpression" class="text-danger validation-spacing" />
+@*
+Sample usage:
+<BSInputText Id="inputText" Class="mb-3" Label="InputText" InputType="InputType.Standard" @bind-Value="_demo" Placeholder="All work and no play..." Disabled="@_isRequesting" />
+<BSInputText Id="inputText" Class="mb-3" Label="InputText" InputType="InputType.InputGroup" @bind-Value="_demo" Placeholder="All work and no play..." Disabled="@_isRequesting" />
+<BSInputText Id="inputText" Class="mb-3" Label="InputText" InputType="InputType.FloatingLabel" @bind-Value="_demo" Disabled="@_isRequesting" />
+*@
+
+@if (InputType == InputType.Standard)
+{
+    <div class="@($"{Class}")" style="@($"{Style}")">
+        <label for="@Id" class="form-label mb-0" style="@($"width: {LabelWidth}px; {LabelStyle}")">@Label</label>
+        <InputText id="@Id"
+                   type="@Type"
+                   class="form-control"
+                   style="@InputStyle"
+                   placeholder="@Placeholder"
+                   Value="@Value"
+                   ValueChanged="ValueChanged"
+                   ValueExpression="ValueExpression"
+                   @oninput="OnInput"
+                   @onfocus="OnFocus"
+                   @onblur="OnBlur"
+                   @onclick="OnClick"
+                   @onchange="OnChange"
+                   @onmouseover="OnMouseOver"
+                   @onmouseout="OnMouseOut"
+                   Disabled="@Disabled" />
+    </div>
+}
+else if (InputType == InputType.InputGroup)
+{
+    <div class="@($"input-group {Class}")" style="@($"{Style}")">
+        <span class="input-group-text" style="@($"width: {LabelWidth}px; {LabelStyle}")">@Label</span>
+        <InputText id="@Id"
+                   type="@Type"
+                   class="form-control"
+                   style="@InputStyle"
+                   placeholder="@Placeholder"
+                   Value="@Value"
+                   ValueChanged="ValueChanged"
+                   ValueExpression="ValueExpression"
+                   @oninput="OnInput"
+                   @onfocus="OnFocus"
+                   @onblur="OnBlur"
+                   @onclick="OnClick"
+                   @onchange="OnChange"
+                   @onmouseover="OnMouseOver"
+                   @onmouseout="OnMouseOut"
+                   Disabled="@Disabled" />
+    </div>
+}
+else if (InputType == InputType.FloatingLabel)
+{
+    <div class="@($"form-floating {Class}")" style="@($"{Style}")">
+        <InputText id="@Id"
+                   type="@Type"
+                   class="form-control"
+                   style="@InputStyle"
+                   placeholder="@Placeholder"
+                   Value="@Value"
+                   ValueChanged="ValueChanged"
+                   ValueExpression="ValueExpression"
+                   @oninput="OnInput"
+                   @onfocus="OnFocus"
+                   @onblur="OnBlur"
+                   @onclick="OnClick"
+                   @onchange="OnChange"
+                   @onmouseover="OnMouseOver"
+                   @onmouseout="OnMouseOut"
+                   Disabled="@Disabled" />
+        <label for="@Id" style="@LabelStyle">@Label</label>
+    </div>
+}
+
+@if (EditContext != null)
+{
+    <ValidationMessage For="@ValueExpression" class="text-danger validation-spacing" />
+}
 
 @code {
+    [CascadingParameter]
+    private EditContext? EditContext { get; set; }
+
+    [Parameter]
+    public InputType InputType { get; set; } = InputType.InputGroup;
+
+    [Parameter]
+    public string Type { get; set; } = "text";
+
     [Parameter]
     public string? Class { get; set; }
-    
+
     [Parameter, EditorRequired]
     public required string Label { get; set; }
 
     [Parameter]
     public ushort LabelWidth { get; set; } = 150;
 
+    [Parameter]
+    public string Style { get; set; } = "";
+
+    [Parameter]
+    public string LabelStyle { get; set; } = "";
+
+    [Parameter]
+    public string InputStyle { get; set; } = "";
+
     [Parameter, EditorRequired]
     public required string Id { get; set; }
 
     [Parameter]
+    public string? Placeholder { get; set; }
+
+    [Parameter]
     public string? Value { get; set; }
 
-    [Parameter] 
+    [Parameter]
     public EventCallback<string> ValueChanged { get; set; }
 
     [Parameter]

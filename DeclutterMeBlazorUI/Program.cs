@@ -1,4 +1,3 @@
-using Blazored.Toast;
 using DataAccessLibrary.Data;
 using DeclutterMeBlazorUI.Features;
 using Microsoft.EntityFrameworkCore;
@@ -6,26 +5,37 @@ using Microsoft.EntityFrameworkCore;
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
+    .AddInteractiveServerComponents()
+    .AddHubOptions(options =>
+    {
+        options.ClientTimeoutInterval = TimeSpan.FromSeconds(60);
+        options.HandshakeTimeout = TimeSpan.FromSeconds(30);
+    });
+builder.Services.AddResponseCompression();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddDbContext<DeclutterMeDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default"))
 );
-builder.Services.AddBlazoredToast();
 
+builder.Services.AddJSComponents();
 WebApplication app = builder.Build();
 await ApplyDbMigrations(app);
 
+app.UseExceptionHandler("/Error", createScopeForErrors: true);
+
 if (app.Environment.IsDevelopment() == false)
 {
-    app.UseExceptionHandler("/Error", createScopeForErrors: true);
     app.UseHsts();
+    app.UseResponseCompression();
 }
 
+app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages: true);
 app.UseHttpsRedirection();
-app.UseStaticFiles();
 app.UseAntiforgery();
+app.MapStaticAssets();
 app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode();
+    .AddInteractiveServerRenderMode()
+    .AllowAnonymous();
 app.Run();
 
 static async Task ApplyDbMigrations(WebApplication app)

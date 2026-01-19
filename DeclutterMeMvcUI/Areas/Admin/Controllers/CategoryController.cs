@@ -15,12 +15,14 @@ public class CategoryController : Controller
         _db = db;
     }
 
+    [HttpGet]
     public async Task<IActionResult> Index()
     {
         IEnumerable<Category> categories = await _db.Categories.ToListAsync();
         return View(categories);
     }
 
+    [HttpGet]
     public IActionResult Create()
     {
         return View();
@@ -46,7 +48,8 @@ public class CategoryController : Controller
         return View(category);
     }
 
-    public async Task<IActionResult> Edit(int? id)
+    [HttpGet]
+    public async Task<IActionResult> Update(int? id)
     {
         if (id == null || id == 0)
         {
@@ -65,7 +68,7 @@ public class CategoryController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(Category category)
+    public async Task<IActionResult> Update(Category category)
     {
         if (category.Name == category.DisplayOrder.ToString())
         {
@@ -83,6 +86,7 @@ public class CategoryController : Controller
         return View(category);
     }
 
+    [HttpGet]
     public async Task<IActionResult> Delete(int? id)
     {
         if (id == null || id == 0)

@@ -18,9 +18,10 @@ if (app.Environment.IsDevelopment() == false)
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
 app.UseRouting();
-app.MapRazorPages();
+app.MapStaticAssets();
+app.MapRazorPages()
+    .WithStaticAssets();
 app.MapControllers();
 app.MapRazorPages();
 app.Run();

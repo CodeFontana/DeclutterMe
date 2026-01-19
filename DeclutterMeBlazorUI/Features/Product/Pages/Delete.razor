@@ -26,7 +26,7 @@
                         </div>
                         <DataAnnotationsValidator />
                         <BSInputText Class="mb-3" Id="productName" Label="Name" @bind-Value="Product.Name" disabled />
-                        <BSInputTextArea Class="mb-3" Id="productDescription" @bind-Value="Product.Description" Rows="3" disabled />
+                        <BSInputTextArea Class="mb-3" Id="productDescription" Label="Product Description" @bind-Value="Product.Description" Rows="3" disabled />
                         <BSInputNumber Class="mb-3 col-6" Id="listPrice" Label="List Price" @bind-Value="Product.ListPrice" disabled />
                         <BSInputNumber Class="mb-3 col-6" Id="actualPrice" Label="Actual Price" @bind-Value="Product.ActualPrice" disabled />
                         <BSInputSelect Class="mb-3" Id="selectCategory" Label="Category" @bind-Value="Product.CategoryId" disabled>

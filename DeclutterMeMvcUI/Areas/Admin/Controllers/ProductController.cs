@@ -19,6 +19,7 @@ public class ProductController : Controller
         _hostEnvironment = hostEnvironment;
     }
 
+    [HttpGet]
     public IActionResult Index()
     {
         return View();
@@ -33,6 +34,7 @@ public class ProductController : Controller
         return Json(new { data = products });
     }
 
+    [HttpGet]
     public async Task<IActionResult> Upsert(int? id)
     {
         ProductUpsertModel productUpsertModel = new()
