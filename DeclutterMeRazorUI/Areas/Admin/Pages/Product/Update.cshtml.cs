@@ -6,12 +6,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DeclutterMeRazorUI.Areas.Admin.Pages.Product;
 
-public class EditModel : PageModel
+public class UpdateModel : PageModel
 {
     private readonly DeclutterMeDbContext _db;
     private readonly IWebHostEnvironment _hostEnvironment;
 
-    public EditModel(DeclutterMeDbContext db, IWebHostEnvironment hostEnvironment)
+    public UpdateModel(DeclutterMeDbContext db, IWebHostEnvironment hostEnvironment)
     {
         _db = db;
         _hostEnvironment = hostEnvironment;

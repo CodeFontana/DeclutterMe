@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore;
 namespace DeclutterMeRazorUI.Areas.Admin.Pages.Category;
 
 [BindProperties]
-public class EditModel : PageModel
+public class UpdateModel : PageModel
 {
     private readonly DeclutterMeDbContext _db;
 
-    public EditModel(DeclutterMeDbContext db)
+    public UpdateModel(DeclutterMeDbContext db)
     {
         _db = db;
     }
@@ -36,7 +36,7 @@ public class EditModel : PageModel
             TempData["success"] = "Category updated successfully";
             return RedirectToPage("Index");
         }
-        
+
         return Page();
     }
 }

@@ -18,7 +18,7 @@ function loadDataTable() {
                 "data": "id",
                 "render": function (data) {
                     return `
-                        <a href="/Admin/Product/Upsert?id=${data}" class="btn btn-sm btn-primary">Edit</a>
+                        <a href="/Admin/Product/Upsert?id=${data}" class="btn btn-sm btn-primary">Update</a>
                         <a onClick=deleteProduct('/Admin/Product/Delete/+${data}') class="btn btn-sm btn-danger">Delete</a>
                         `
                 },
